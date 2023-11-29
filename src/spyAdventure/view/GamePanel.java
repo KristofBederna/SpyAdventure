@@ -2,6 +2,7 @@ package spyAdventure.view;
 
 import spyAdventure.common.Globals;
 import spyAdventure.common.MovementHandler;
+import spyAdventure.common.TileManager;
 import spyAdventure.model.Player;
 
 import javax.swing.*;
@@ -11,6 +12,8 @@ public class GamePanel extends JPanel implements Runnable{
     Thread GameThread;
     MovementHandler MH = new MovementHandler();
     Player player = new Player(100, 100, MH, this);
+    TileManager TM = new TileManager();
+
     public GamePanel() {
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
         setBackground(Color.GREEN);
@@ -52,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D graphics2D = (Graphics2D) g;
 
+        TM.draw(graphics2D);
         if (player.getDirection() != null) {
             player.draw(graphics2D);
         }
