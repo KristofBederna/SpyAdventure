@@ -26,6 +26,10 @@ public class GamePanel extends JPanel implements Runnable{
     long timeSpent = 0;
     Boolean finished = false;
 
+    //TODO: Add spawn points
+    int[] spawnPointsX = new int[10];
+    int[] spawnPointsY = new int[10];
+
     public GamePanel() {
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
         setBackground(Color.GREEN);
@@ -76,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable{
             else {
                 TM.loadMap(TM.getCurrentMap() + 1);
                 TM.setCurrentMap(TM.getCurrentMap() + 1);
-                player.setX(100); player.setY(100);
+                player.setX(spawnPointsX[TM.getCurrentMap()+1]); player.setY(spawnPointsY[TM.getCurrentMap()+1]);
             }
         }
     }
