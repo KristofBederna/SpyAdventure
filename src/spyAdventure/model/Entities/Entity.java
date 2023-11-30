@@ -1,4 +1,7 @@
-package spyAdventure.model;
+package spyAdventure.model.Entities;
+
+import spyAdventure.common.Globals;
+import spyAdventure.view.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,6 +15,9 @@ public class Entity {
     protected int spiteNum = 1;
     protected Rectangle hitBox;
     protected boolean isColliding;
+    protected int health;
+    protected int ammo;
+    protected GamePanel gamePanel;
 
     public int getX() {
         return X;
@@ -37,9 +43,10 @@ public class Entity {
         this.speed = speed;
     }
 
-    public Entity(int X, int Y) {
-        this.X = X;
-        this.Y = Y;
+    public Entity(GamePanel gamePanel) {
+        this.X = Globals.SCALED_TILE_SIZE;
+        this.Y = Globals.SCALED_TILE_SIZE;
+        this.gamePanel = gamePanel;
     }
 
     public Rectangle getHitBox() {
@@ -52,5 +59,12 @@ public class Entity {
 
     public void setColliding(boolean colliding) {
         isColliding = colliding;
+    }
+    public int getHealth() {
+        return health;
+    }
+
+    public int getAmmo() {
+        return ammo;
     }
 }

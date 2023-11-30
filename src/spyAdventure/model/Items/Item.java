@@ -1,7 +1,6 @@
-package spyAdventure.common.Items;
+package spyAdventure.model.Items;
 
 import spyAdventure.common.Globals;
-import spyAdventure.model.Entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

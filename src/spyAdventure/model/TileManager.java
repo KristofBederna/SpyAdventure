@@ -1,6 +1,10 @@
-package spyAdventure.common.Tiles;
+package spyAdventure.model;
 
 import spyAdventure.common.Globals;
+import spyAdventure.common.Tiles.Door;
+import spyAdventure.common.Tiles.Floor;
+import spyAdventure.common.Tiles.Tile;
+import spyAdventure.common.Tiles.Wall;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,15 +16,16 @@ import java.io.InputStreamReader;
 public class TileManager {
     Tile[] tiles;
     int[][] intMap;
+    int currentMap = 1;
 
     public TileManager() {
         tiles = new Tile[30];
-        getTileImage();
-        intMap = new int[16][12];
-        loadMap("/Assets/Map1.txt");
+        setTiles();
+        intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
+        loadMap(currentMap);
     }
 
-    public void getTileImage() {
+    public void setTiles() {
         try {
 
             //Floors
@@ -54,6 +59,8 @@ public class TileManager {
             tiles[12].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Wall/RightWallTile.png")));
             tiles[13] = new Wall();
             tiles[13].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Wall/topWallTile.png")));
+            tiles[28] = new Wall();
+            tiles[28].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Wall/glassWallTile.png")));
 
             //Doors
             tiles[14] = new Door("blue");
@@ -97,14 +104,16 @@ public class TileManager {
             }
         }
     }
-    public void loadMap(String path) {
+    public void loadMap(int index) {
         try {
-            InputStream IS = getClass().getResourceAsStream(path);
+            setTiles();
+            intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
+            InputStream IS = getClass().getResourceAsStream("/Assets/IntMaps/Map"+index+".txt");
             BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
 
             for (int i = 0; i < Globals.MAX_TILES_HEIGHT; i++) {
                 String line = BR.readLine();
-                String numbers[] = line.split(" ");
+                String numbers[] = line.split("\t");
                 for (int j = 0; j < Globals.MAX_TILES_WIDTH; j++) {
                     int num = Integer.parseInt(numbers[j]);
                     intMap[j][i] = num;
@@ -120,5 +129,13 @@ public class TileManager {
     }
     public Tile[] getTiles() {
         return tiles;
+    }
+
+    public void setCurrentMap(int currentMap) {
+        this.currentMap = currentMap;
+    }
+
+    public int getCurrentMap() {
+        return currentMap;
     }
 }

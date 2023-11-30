@@ -1,13 +1,12 @@
-package spyAdventure.common;
+package spyAdventure.model;
 
-import spyAdventure.common.Items.Keycard;
+import spyAdventure.common.Globals;
 import spyAdventure.common.Tiles.Door;
-import spyAdventure.model.Entity;
-import spyAdventure.model.Player;
+import spyAdventure.model.Entities.Entity;
+import spyAdventure.model.Entities.Player;
 import spyAdventure.view.GamePanel;
 
 import javax.imageio.ImageIO;
-import java.security.Key;
 
 public class CollisionManager {
     private GamePanel gamePanel;
@@ -20,7 +19,7 @@ public class CollisionManager {
         int topY = (entity.getY() + entity.getHitBox().y);
         int bottomY = (entity.getY() + entity.getHitBox().y + entity.getHitBox().height);
 
-        int leftMargin = leftX/Globals.SCALED_TILE_SIZE;
+        int leftMargin = leftX/ Globals.SCALED_TILE_SIZE;
         int rightMargin = rightX/Globals.SCALED_TILE_SIZE;
         int topMargin = topY/Globals.SCALED_TILE_SIZE;
         int bottomMargin = bottomY/Globals.SCALED_TILE_SIZE;

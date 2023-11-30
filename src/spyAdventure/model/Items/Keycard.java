@@ -1,4 +1,4 @@
-package spyAdventure.common.Items;
+package spyAdventure.model.Items;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

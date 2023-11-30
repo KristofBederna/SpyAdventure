@@ -1,10 +1,7 @@
-package spyAdventure.common.Items;
+package spyAdventure.model.Items;
 
 import spyAdventure.common.Globals;
-import spyAdventure.model.Entity;
 import spyAdventure.view.GamePanel;
-
-import java.awt.*;
 
 public class ItemManager {
     private GamePanel gamePanel;
@@ -15,7 +12,7 @@ public class ItemManager {
 
     public void setupItems() {
         items[0] = new Keycard("blue");
-        placeItem(0,10, 10);
+        placeItem(0,13, 10);
         items[1] = new Keycard("red");
         placeItem(1,4, 4);
         items[2] = new Keycard("green");

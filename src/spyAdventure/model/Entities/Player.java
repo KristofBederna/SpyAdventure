@@ -1,8 +1,8 @@
-package spyAdventure.model;
+package spyAdventure.model.Entities;
 
 import spyAdventure.common.Globals;
-import spyAdventure.common.Items.Item;
-import spyAdventure.common.Items.ItemManager;
+import spyAdventure.model.Items.Item;
+import spyAdventure.model.Items.ItemManager;
 import spyAdventure.common.MovementHandler;
 import spyAdventure.view.GamePanel;
 
@@ -12,20 +12,20 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Player extends Entity{
+public class Player extends Entity {
     private MovementHandler MH;
-    private GamePanel GamePanel;
     private ArrayList<Item> Inventory;
     private ItemManager IM;
 
 
-    public Player(int X, int Y, MovementHandler movementHandler, GamePanel gamePanel, ItemManager im) {
-        super(X, Y);
+    public Player(MovementHandler movementHandler, GamePanel gamePanel, ItemManager im) {
+        super(gamePanel);
+
+        health = 5;
         this.MH = movementHandler;
-        this.GamePanel = gamePanel;
         direction = "idle";
 
-        hitBox = new Rectangle(8, 16, 32, 32);
+        hitBox = new Rectangle(8, 16, 24, 24);
 
         IM = im;
         Inventory = new ArrayList<>();
@@ -47,9 +47,9 @@ public class Player extends Entity{
         }
 
         isColliding = false;
-        GamePanel.getCM().checkTile(this);
+        gamePanel.getCM().checkTile(this);
 
-        int itemIndex = GamePanel.getCM().checkObject(this, true);
+        int itemIndex = gamePanel.getCM().checkObject(this, true);
         if (itemIndex != 999) {
             Inventory.add(IM.getItems()[itemIndex]);
             IM.ghostItem(itemIndex);
