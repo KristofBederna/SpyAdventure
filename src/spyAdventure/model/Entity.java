@@ -1,14 +1,17 @@
 package spyAdventure.model;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
     protected int X, Y;
     protected int speed = 4;
-    protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, idle, idleBack;
+    protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, idle;
     protected String direction;
     protected int spriteCounter = 0;
     protected int spiteNum = 1;
+    protected Rectangle hitBox;
+    protected boolean isColliding;
 
     public int getX() {
         return X;
@@ -37,5 +40,17 @@ public class Entity {
     public Entity(int X, int Y) {
         this.X = X;
         this.Y = Y;
+    }
+
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setColliding(boolean colliding) {
+        isColliding = colliding;
     }
 }

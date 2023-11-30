@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Tile {
-    private BufferedImage image;
-    private boolean collision = false;
+    protected BufferedImage image;
+    protected boolean collision = false;
 
     public void setImage(BufferedImage image) {
         this.image = image;
@@ -13,5 +13,8 @@ public class Tile {
 
     public Image getImage() {
         return image;
+    }
+    public void setCollision(boolean value) {
+        this.collision = value;
     }
 }

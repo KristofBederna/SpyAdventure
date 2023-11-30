@@ -19,24 +19,45 @@ public class Player extends Entity{
         this.MH = movementHandler;
         this.GamePanel = gamePanel;
         direction = "idle";
+
+        hitBox = new Rectangle(8, 16, 32, 32);
+
         getPlayerImage();
     }
 
     public void update() {
         if (MH.up) {
-            setY(getY()-getSpeed());
             direction = "up";
         } else if (MH.down) {
-            setY(getY()+getSpeed());
             direction = "down";
         } else if (MH.right) {
-            setX(getX()+getSpeed());
             direction = "right";
         } else if (MH.left) {
-            setX(getX() - getSpeed());
             direction = "left";
         } else {
             direction = "idle";
+        }
+
+        isColliding = false;
+        GamePanel.getCM().checkTile(this);
+
+        if (!isColliding) {
+            switch (direction) {
+                case ("up"):
+                    setY(getY()-getSpeed());
+                    break;
+                case ("down"):
+                    setY(getY()+getSpeed());
+                    break;
+                case ("right"):
+                    setX(getX()+getSpeed());
+                    break;
+                case ("left"):
+                    setX(getX() - getSpeed());
+                    break;
+            } if (isColliding) {
+                direction = "idle";
+            }
         }
 
         spriteCounter++;

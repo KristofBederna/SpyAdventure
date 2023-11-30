@@ -1,5 +1,6 @@
 package spyAdventure.view;
 
+import spyAdventure.common.CollisionManager;
 import spyAdventure.common.Globals;
 import spyAdventure.common.MovementHandler;
 import spyAdventure.common.TileManager;
@@ -13,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable{
     MovementHandler MH = new MovementHandler();
     Player player = new Player(100, 100, MH, this);
     TileManager TM = new TileManager();
+    CollisionManager CM = new CollisionManager(this);
 
     public GamePanel() {
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
@@ -61,5 +63,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         graphics2D.dispose();
+    }
+
+    public CollisionManager getCM() {
+        return CM;
+    }
+
+    public TileManager getTM() {
+        return TM;
     }
 }
