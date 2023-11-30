@@ -1,4 +1,4 @@
-package spyAdventure.common;
+package spyAdventure.common.Tiles;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,5 +16,8 @@ public class Tile {
     }
     public void setCollision(boolean value) {
         this.collision = value;
+    }
+    public boolean getCollision() {
+        return collision;
     }
 }

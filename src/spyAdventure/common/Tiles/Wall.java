@@ -1,4 +1,4 @@
-package spyAdventure.common;
+package spyAdventure.common.Tiles;
 
 public class Wall extends Tile{
     public Wall() {

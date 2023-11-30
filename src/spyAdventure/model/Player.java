@@ -1,6 +1,8 @@
 package spyAdventure.model;
 
 import spyAdventure.common.Globals;
+import spyAdventure.common.Items.Item;
+import spyAdventure.common.Items.ItemManager;
 import spyAdventure.common.MovementHandler;
 import spyAdventure.view.GamePanel;
 
@@ -8,19 +10,25 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends Entity{
     private MovementHandler MH;
     private GamePanel GamePanel;
+    private ArrayList<Item> Inventory;
+    private ItemManager IM;
 
 
-    public Player(int X, int Y, MovementHandler movementHandler, GamePanel gamePanel) {
+    public Player(int X, int Y, MovementHandler movementHandler, GamePanel gamePanel, ItemManager im) {
         super(X, Y);
         this.MH = movementHandler;
         this.GamePanel = gamePanel;
         direction = "idle";
 
         hitBox = new Rectangle(8, 16, 32, 32);
+
+        IM = im;
+        Inventory = new ArrayList<>();
 
         getPlayerImage();
     }
@@ -40,6 +48,12 @@ public class Player extends Entity{
 
         isColliding = false;
         GamePanel.getCM().checkTile(this);
+
+        int itemIndex = GamePanel.getCM().checkObject(this, true);
+        if (itemIndex != 999) {
+            Inventory.add(IM.getItems()[itemIndex]);
+            IM.ghostItem(itemIndex);
+        }
 
         if (!isColliding) {
             switch (direction) {
@@ -132,5 +146,8 @@ public class Player extends Entity{
 
     public String getDirection() {
         return direction;
+    }
+    public ArrayList<Item> getInventory() {
+        return Inventory;
     }
 }

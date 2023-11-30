@@ -2,8 +2,10 @@ package spyAdventure.view;
 
 import spyAdventure.common.CollisionManager;
 import spyAdventure.common.Globals;
+import spyAdventure.common.Items.Item;
+import spyAdventure.common.Items.ItemManager;
 import spyAdventure.common.MovementHandler;
-import spyAdventure.common.TileManager;
+import spyAdventure.common.Tiles.TileManager;
 import spyAdventure.model.Player;
 
 import javax.swing.*;
@@ -12,9 +14,10 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable{
     Thread GameThread;
     MovementHandler MH = new MovementHandler();
-    Player player = new Player(100, 100, MH, this);
     TileManager TM = new TileManager();
     CollisionManager CM = new CollisionManager(this);
+    ItemManager IM = new ItemManager(this);
+    Player player = new Player(Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, MH, this, IM);
 
     public GamePanel() {
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
@@ -22,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable{
         setDoubleBuffered(true); // smooth rendering
         addKeyListener(MH);
         setFocusable(true);
+        IM.setupItems();
         startGameThread();
     }
 
@@ -58,6 +62,13 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D graphics2D = (Graphics2D) g;
 
         TM.draw(graphics2D);
+
+        for (int i = 0; i < IM.getItems().length; i++) {
+            if (IM.getItems()[i] != null) {
+                IM.getItems()[i].draw(graphics2D);
+            }
+        }
+
         if (player.getDirection() != null) {
             player.draw(graphics2D);
         }
@@ -72,4 +83,5 @@ public class GamePanel extends JPanel implements Runnable{
     public TileManager getTM() {
         return TM;
     }
+    public ItemManager getIM() {return IM;}
 }

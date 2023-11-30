@@ -1,6 +1,6 @@
-package spyAdventure.common;
+package spyAdventure.common.Tiles;
 
-import spyAdventure.view.GamePanel;
+import spyAdventure.common.Globals;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,12 +11,12 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     Tile[] tiles;
-    int[][] mapNums;
+    int[][] intMap;
 
     public TileManager() {
         tiles = new Tile[30];
         getTileImage();
-        mapNums = new int[16][12];
+        intMap = new int[16][12];
         loadMap("/Assets/Map1.txt");
     }
 
@@ -56,34 +56,34 @@ public class TileManager {
             tiles[13].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Wall/topWallTile.png")));
 
             //Doors
-            tiles[14] = new Door();
+            tiles[14] = new Door("blue");
             tiles[14].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedBlueKeycardFront.png")));
-            tiles[15] = new Door();
+            tiles[15] = new Door("blue");
             tiles[15].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedBlueKeycardLeft.png")));
-            tiles[16] = new Door();
+            tiles[16] = new Door("blue");
             tiles[16].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedBlueKeycardRight.png")));
-            tiles[17] = new Door();
+            tiles[17] = new Door("green");
             tiles[17].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedGreenKeycardFront.png")));
-            tiles[18] = new Door();
+            tiles[18] = new Door("green");
             tiles[18].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedGreenKeycardLeft.png")));
-            tiles[19] = new Door();
+            tiles[19] = new Door("green");
             tiles[19].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedGreenKeycardRight.png")));
-            tiles[20] = new Door();
+            tiles[20] = new Door("");
             tiles[20].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedKeypadFront.png")));
-            tiles[21] = new Door();
+            tiles[21] = new Door("");
             tiles[21].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedKeypadLeft.png")));
-            tiles[22] = new Door();
+            tiles[22] = new Door("");
             tiles[22].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedKeypadRight.png")));
-            tiles[23] = new Door();
+            tiles[23] = new Door("red");
             tiles[23].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedRedKeycardFront.png")));
-            tiles[24] = new Door();
+            tiles[24] = new Door("red");
             tiles[24].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedRedKeycardLeft.png")));
-            tiles[25] = new Door();
+            tiles[25] = new Door("red");
             tiles[25].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedRedKeycardRight.png")));
-            tiles[26] = new Door();
+            tiles[26] = new Door("");
             tiles[26].setCollision(false);
             tiles[26].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-            tiles[27] = new Door();
+            tiles[27] = new Door("");
             tiles[27].setCollision(false);
             tiles[27].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
         } catch (IOException e) {
@@ -93,7 +93,7 @@ public class TileManager {
     public void draw(Graphics2D Graphics2D) {
         for (int i = 0; i < Globals.MAX_TILES_WIDTH; i++) {
             for (int j = 0; j < Globals.MAX_TILES_HEIGHT; j++) {
-                Graphics2D.drawImage(tiles[mapNums[i][j]].getImage(), i*48, j*48, Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
+                Graphics2D.drawImage(tiles[intMap[i][j]].getImage(), i*48, j*48, Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
             }
         }
     }
@@ -107,12 +107,18 @@ public class TileManager {
                 String numbers[] = line.split(" ");
                 for (int j = 0; j < Globals.MAX_TILES_WIDTH; j++) {
                     int num = Integer.parseInt(numbers[j]);
-                    mapNums[j][i] = num;
+                    intMap[j][i] = num;
                  }
             }
             BR.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public int[][] getIntMap() {
+        return intMap;
+    }
+    public Tile[] getTiles() {
+        return tiles;
     }
 }
