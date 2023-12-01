@@ -37,12 +37,31 @@ public class GamePanel extends JPanel implements Runnable{
         addKeyListener(MH);
         setFocusable(true);
         IM.setupItems();
+        setUpSpawnPoints();
         startGameThread();
     }
 
     public void startGameThread() {
         GameThread = new Thread(this);
         GameThread.start();
+    }
+
+    public void setUpSpawnPoints() {
+        setUpASpawnPoint(0, 1, 1);
+        setUpASpawnPoint(1, 7, 1);
+        setUpASpawnPoint(2, 2, 1);
+        setUpASpawnPoint(3, 10, 12);
+        setUpASpawnPoint(4, 10, 4);
+        setUpASpawnPoint(5, 8, 1);
+        setUpASpawnPoint(6, 1, 1);
+        setUpASpawnPoint(7, 1, 1);
+        setUpASpawnPoint(8, 1, 1);
+        setUpASpawnPoint(9, 1, 1);
+
+    }
+    public void setUpASpawnPoint(int index, int Y, int X) {
+        spawnPointsX[index] = X*Globals.SCALED_TILE_SIZE;
+        spawnPointsY[index] = Y*Globals.SCALED_TILE_SIZE;
     }
     @Override
     public void run() {
@@ -80,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable{
             else {
                 TM.loadMap(TM.getCurrentMap() + 1);
                 TM.setCurrentMap(TM.getCurrentMap() + 1);
-                player.setX(spawnPointsX[TM.getCurrentMap()+1]); player.setY(spawnPointsY[TM.getCurrentMap()+1]);
+                player.setX(spawnPointsX[TM.getCurrentMap()-1]); player.setY(spawnPointsY[TM.getCurrentMap()-1]);
             }
         }
     }
