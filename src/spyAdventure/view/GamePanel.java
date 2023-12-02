@@ -26,7 +26,8 @@ public class GamePanel extends JPanel implements Runnable{
     NPCManager NM = new NPCManager(this);
     UI Ui = new UI(this);
     long timeSpent = 0;
-    Boolean finished = false;
+    boolean finished = false;
+    boolean dead = false;
     EventHandler EH = new EventHandler(this);;
 
     int[] spawnPointsX = new int[10];
@@ -92,6 +93,11 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         player.update();
+        if (player.getHealth() <= 0) {
+            dead = true;
+            GameThread.interrupt();
+            GameThread = null;
+        }
         if (player.getX() > Globals.MAX_TILES_WIDTH * Globals.SCALED_TILE_SIZE || player.getX() <= 0 || player.getY() > Globals.MAX_TILES_HEIGHT * Globals.SCALED_TILE_SIZE || player.getY() <= 0) {
             if (TM.getCurrentMap() == 10) {
                 finished = true;
@@ -133,7 +139,12 @@ public class GamePanel extends JPanel implements Runnable{
         Ui.draw(graphics2D);
 
         if (finished) {
-            FinishedScreen finishedScreen = new FinishedScreen(this);
+            FinishedScreen finishedScreen = new FinishedScreen(this, false);
+            Ui.add(finishedScreen);
+            finishedScreen.draw(graphics2D);
+        }
+        if (dead) {
+            FinishedScreen finishedScreen = new FinishedScreen(this, true);
             Ui.add(finishedScreen);
             finishedScreen.draw(graphics2D);
         }

@@ -72,7 +72,14 @@ public class Player extends Entity {
             IM.ghostItem(itemIndex);
         }
 
+        attackTimeout = 0;
         int NPCIndex = gamePanel.getCM().checkAttack(this);
+        if (attacking && NPCIndex == 999) {
+            attackTimeout = 30;
+        }
+        if (attackTimeout <= 0) {
+            attacking = false;
+        }
         if (NPCIndex != 999) {
             if (activeItem == 1 && attackTimeout <= 0 && attacking) {
                 gamePanel.getNM().getNPCs()[NPCIndex].damage();
@@ -201,7 +208,7 @@ public class Player extends Entity {
                 if (attackDirection.equals("right") || attackDirection.equals("left")) {
                     graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+48, Globals.SCALED_TILE_SIZE, null);
                 } else {
-                    graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+8, Globals.SCALED_TILE_SIZE, null);
+                    graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+8, Globals.SCALED_TILE_SIZE+16, null);
                 }
             } else {
                 graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
@@ -255,9 +262,7 @@ public class Player extends Entity {
             }
         }
         Inventory.clear();
-        for (Item item: temp) {
-            Inventory.add(item);
-        }
+        Inventory.addAll(temp);
     }
 
     public int getActiveItem() {
