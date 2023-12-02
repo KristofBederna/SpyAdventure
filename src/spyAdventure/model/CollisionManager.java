@@ -7,6 +7,7 @@ import spyAdventure.model.Entities.Player;
 import spyAdventure.view.GamePanel;
 
 import javax.imageio.ImageIO;
+import java.util.Objects;
 
 public class CollisionManager {
     private GamePanel gamePanel;
@@ -50,28 +51,27 @@ public class CollisionManager {
                     }
                     switch (door.getColor()) {
                         case("red"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[1])) {
+                            if (Objects.equals(player.getCurrentColor(), "red")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
                                 door.setColor("");
                             }
                             break;
                         case("green"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[1])) {
+                            if (Objects.equals(player.getCurrentColor(), "green")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
                                 door.setColor("");
                             }
                             break;
                         case("blue"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[1])) {
+                            if (Objects.equals(player.getCurrentColor(), "blue")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
                                 door.setColor("");
                             }
                             break;
                     }
-
                 } catch (Exception ignored) {
 
                 }
@@ -98,28 +98,27 @@ public class CollisionManager {
                     }
                     switch (door.getColor()) {
                         case("red"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[1])) {
+                            if (Objects.equals(player.getCurrentColor(), "red")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
                                 door.setColor("");
                             }
                             break;
                         case("green"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[2])) {
+                            if (Objects.equals(player.getCurrentColor(), "green")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
                                 door.setColor("");
                             }
                             break;
                         case("blue"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[0])) {
+                            if (Objects.equals(player.getCurrentColor(), "blue")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
                                 door.setColor("");
                             }
                             break;
                     }
-
                 } catch (Exception ignored) {
 
                 }
@@ -148,21 +147,21 @@ public class CollisionManager {
                     }
                     switch (door.getColor()) {
                         case("red"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[1])) {
+                            if (Objects.equals(player.getCurrentColor(), "red")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
                                 door.setColor("");
                             }
                             break;
                         case("green"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[2])) {
+                            if (Objects.equals(player.getCurrentColor(), "green")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
                                 door.setColor("");
                             }
                             break;
                         case("blue"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[0])) {
+                            if (Objects.equals(player.getCurrentColor(), "blue")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
                                 door.setColor("");
@@ -196,21 +195,21 @@ public class CollisionManager {
                     }
                     switch (door.getColor()) {
                         case("red"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[1])) {
+                            if (Objects.equals(player.getCurrentColor(), "red")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
                                 door.setColor("");
                             }
                             break;
                         case("green"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[2])) {
+                            if (Objects.equals(player.getCurrentColor(), "green")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
                                 door.setColor("");
                             }
                             break;
                         case("blue"):
-                            if (player.getInventory().contains(gamePanel.getIM().getItems()[0])) {
+                            if (Objects.equals(player.getCurrentColor(), "blue")) {
                                 door.setCollision(false);
                                 door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
                                 door.setColor("");
@@ -276,6 +275,53 @@ public class CollisionManager {
                 entity.getHitBox().y = defaultY;
                 gamePanel.getIM().getItems()[i].getHitBox().x = defaultItemX;
                 gamePanel.getIM().getItems()[i].getHitBox().y = defaultItemY;
+            }
+        }
+        return index;
+    }
+    public int checkAttack(Entity entity) {
+        int index = 999;
+        for (int i = 0; i < gamePanel.getNM().getNPCs().length; i++) {
+            if (gamePanel.getNM().getNPCs()[i] != null) {
+                int defaultX = entity.getAttackBox().x;
+                int defaultY = entity.getAttackBox().y;
+                entity.getAttackBox().x = entity.getX() + entity.getAttackBox().x;
+                entity.getAttackBox().y = entity.getY() + entity.getAttackBox().y;
+
+                int defaultNPCX = gamePanel.getNM().getNPCs()[i].getHitBox().x;
+                int defaultNPCY = gamePanel.getNM().getNPCs()[i].getHitBox().y;
+                gamePanel.getNM().getNPCs()[i].getHitBox().x = gamePanel.getNM().getNPCs()[i].getX() + gamePanel.getNM().getNPCs()[i].getHitBox().x;
+                gamePanel.getNM().getNPCs()[i].getHitBox().y = gamePanel.getNM().getNPCs()[i].getY() + gamePanel.getNM().getNPCs()[i].getHitBox().y;
+                switch (entity.getAttackDirection()) {
+                    case ("up"):
+                        entity.getAttackBox().y -= entity.getSpeed();
+                        if (entity.getAttackBox().intersects(gamePanel.getNM().getNPCs()[i].getHitBox())) {
+                            index = i;
+                        }
+                        break;
+                    case ("down"):
+                        entity.getAttackBox().y += entity.getSpeed();
+                        if (entity.getAttackBox().intersects(gamePanel.getNM().getNPCs()[i].getHitBox())) {
+                            index = i;
+                        }
+                        break;
+                    case ("left"):
+                        entity.getAttackBox().x -= entity.getSpeed();
+                        if (entity.getAttackBox().intersects(gamePanel.getNM().getNPCs()[i].getHitBox())) {
+                            index = i;
+                        }
+                        break;
+                    case ("right"):
+                        entity.getAttackBox().x += entity.getSpeed();
+                        if (entity.getAttackBox().intersects(gamePanel.getNM().getNPCs()[i].getHitBox())) {
+                            index = i;
+                        }
+                        break;
+                }
+                entity.getAttackBox().x = defaultX;
+                entity.getAttackBox().y = defaultY;
+                gamePanel.getNM().getNPCs()[i].getHitBox().x = defaultNPCX;
+                gamePanel.getNM().getNPCs()[i].getHitBox().y = defaultNPCY;
             }
         }
         return index;

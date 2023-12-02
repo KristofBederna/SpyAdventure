@@ -14,4 +14,8 @@ public class Keycard extends Item {
             e.printStackTrace();
         }
     }
+
+    public String getColor() {
+        return color;
+    }
 }

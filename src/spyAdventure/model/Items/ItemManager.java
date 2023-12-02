@@ -3,6 +3,8 @@ package spyAdventure.model.Items;
 import spyAdventure.common.Globals;
 import spyAdventure.view.GamePanel;
 
+import java.util.Objects;
+
 public class ItemManager {
     private GamePanel gamePanel;
     private Item[] items = new Item[10];
@@ -17,6 +19,12 @@ public class ItemManager {
         placeItem(1,4, 4);
         items[2] = new Keycard("green");
         placeItem(2,5, 4);
+        items[3] = new HealthKit();
+        placeItem(3,5, 8);
+        items[4] = new HealthKit();
+        placeItem(4,6, 8);
+        items[5] = new HealthKit();
+        placeItem(5,7, 8);
     }
 
     public void placeItem(int index, int X, int Y) {
@@ -31,5 +39,11 @@ public class ItemManager {
     public void ghostItem(int index) {
         items[index].setX(-100); items[index].setY(-100);
         items[index].setVisible(false);
+        if (Objects.equals(items[index].name, "health_kit")) {
+            if (gamePanel.getPlayer().getHealth() < 5) {
+                gamePanel.getPlayer().heal();
+                gamePanel.getPlayer().getInventory().remove(items[index]);
+            }
+        }
     }
 }

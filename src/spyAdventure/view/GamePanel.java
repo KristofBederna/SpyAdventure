@@ -1,5 +1,6 @@
 package spyAdventure.view;
 
+import spyAdventure.common.EventHandler;
 import spyAdventure.model.CollisionManager;
 import spyAdventure.common.Globals;
 import spyAdventure.model.Entities.NPC;
@@ -13,10 +14,11 @@ import spyAdventure.view.UI.UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable{
     Thread GameThread;
-    MovementHandler MH = new MovementHandler();
+    MovementHandler MH = new MovementHandler(this);
     TileManager TM = new TileManager();
     CollisionManager CM = new CollisionManager(this);
     ItemManager IM = new ItemManager(this);
@@ -25,12 +27,12 @@ public class GamePanel extends JPanel implements Runnable{
     UI Ui = new UI(this);
     long timeSpent = 0;
     Boolean finished = false;
+    EventHandler EH = new EventHandler(this);;
 
-    //TODO: Add spawn points
     int[] spawnPointsX = new int[10];
     int[] spawnPointsY = new int[10];
 
-    public GamePanel() {
+    public GamePanel() throws IOException {
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
         setBackground(Color.GREEN);
         setDoubleBuffered(true); // smooth rendering
@@ -98,10 +100,12 @@ public class GamePanel extends JPanel implements Runnable{
             }
             else {
                 TM.loadMap(TM.getCurrentMap() + 1);
+                player.nullInventory();
                 TM.setCurrentMap(TM.getCurrentMap() + 1);
                 player.setX(spawnPointsX[TM.getCurrentMap()-1]); player.setY(spawnPointsY[TM.getCurrentMap()-1]);
             }
         }
+        EH.checkEvent();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

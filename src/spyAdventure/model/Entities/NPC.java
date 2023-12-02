@@ -7,14 +7,18 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class NPC extends Entity{
+    int actionLockCounter = 0;
     public NPC(GamePanel gamePanel, int X, int Y) {
         super(gamePanel);
         this.X = X*Globals.SCALED_TILE_SIZE;
         this.Y = Y*Globals.SCALED_TILE_SIZE;
         direction = "idle";
-        speed = 2;
+        speed = 1;
+        health = 2;
+        previousHealth = 2;
 
         hitBox = new Rectangle(8, 16, 24, 24);
 
@@ -36,6 +40,7 @@ public class NPC extends Entity{
         }
     }
     public void update() {
+        setAction();
         isColliding = false;
         gamePanel.getCM().checkTile(this);
         if (!isColliding) {
@@ -52,9 +57,12 @@ public class NPC extends Entity{
                 case ("left"):
                     setX(getX() - getSpeed());
                     break;
-            } if (isColliding) {
-                direction = "idle";
             }
+        }
+        if (isColliding) {
+            direction = "idle";
+            actionLockCounter = 119;
+            setAction();
         }
 
         spriteCounter++;
@@ -107,7 +115,31 @@ public class NPC extends Entity{
                 break;
         }
         if (image != null) {
-            graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
+            if (health < previousHealth) {
+                graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50), null);
+            } else {
+                graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
+            }
+        }
+    }
+    public void setAction() {
+        actionLockCounter++;
+        if (actionLockCounter == 120) {
+            actionLockCounter = 0;
+            Random random = new Random();
+            int i = random.nextInt(100)+1;
+            if (i < 25) {
+                direction = "up";
+            } else if (i > 25 && i <= 50) {
+                direction = "right";
+            } else if (i > 50 && i <= 75) {
+                direction = "left";
+            } else if (i > 75 && i < 100) {
+                direction = "down";
+            }
+            if (i % 10 == 0) {
+                direction = "idle";
+            }
         }
     }
 }

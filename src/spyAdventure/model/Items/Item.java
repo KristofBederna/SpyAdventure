@@ -47,6 +47,9 @@ public class Item {
     public boolean getVisible() {
         return this.visible;
     }
+    public BufferedImage getImage() {
+        return this.image;
+    }
 
     public void draw(Graphics2D graphics2D) {
         if (image != null && this.visible) {
