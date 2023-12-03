@@ -106,7 +106,6 @@ public class TileManager {
     }
     public void loadMap(int index) {
         try {
-            setTiles();
             intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
             InputStream IS = getClass().getResourceAsStream("/Assets/IntMaps/Map"+index+".txt");
             BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
@@ -137,5 +136,10 @@ public class TileManager {
 
     public int getCurrentMap() {
         return currentMap;
+    }
+
+    public void updateCell(int row, int column, int changeTo) {
+        intMap[row][column] = changeTo;
+        loadMap(currentMap);
     }
 }
