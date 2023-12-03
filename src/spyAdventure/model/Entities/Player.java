@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,8 +22,7 @@ public class Player extends Entity {
     private int activeItem = 0;
     private int attackTimeout = 0;
     private boolean attacking = false;
-    private String currentColor = "";
-
+    private boolean canDamage = true;
 
     public Player(MovementHandler movementHandler, GamePanel gamePanel, ItemManager im) {
         super(gamePanel);
@@ -72,24 +72,22 @@ public class Player extends Entity {
             IM.ghostItem(itemIndex);
         }
 
-        attackTimeout = 0;
         int NPCIndex = gamePanel.getCM().checkAttack(this);
-        if (attacking && NPCIndex == 999) {
-            attackTimeout = 30;
-        }
-        if (attackTimeout <= 0) {
-            attacking = false;
-        }
         if (NPCIndex != 999) {
-            if (activeItem == 1 && attackTimeout <= 0 && attacking) {
+            if (attacking && canDamage) {
+                canDamage = false;
                 gamePanel.getNM().getNPCs()[NPCIndex].damage();
-                attackTimeout = 30;
                 if (gamePanel.getNM().getNPCs()[NPCIndex].getHealth() == 0) {
                     gamePanel.getNM().getNPCs()[NPCIndex] = null;
                 }
             }
         }
-        attackTimeout--;
+        if (attackTimeout > 0) {
+            attackTimeout--;
+        } else {
+            attacking = false;
+            canDamage = true;
+        }
 
         if (!isColliding) {
             switch (direction) {
@@ -199,9 +197,6 @@ public class Player extends Entity {
                     image = attackDown1;
                     break;
             }
-            if (attackTimeout <= 0) {
-                attacking = false;
-            }
         }
         if (image != null) {
             if (attacking) {
@@ -275,6 +270,7 @@ public class Player extends Entity {
 
     public void useActiveItem() {
         if (activeItem == 1) {
+            attackTimeout = 30;
             attacking = true;
         }
         if (Inventory.get(activeItem-1).getClass() == HealthKit.class) {
@@ -283,25 +279,27 @@ public class Player extends Entity {
             }
             Inventory.set(activeItem-1, null);
         }
-        if (Inventory.get(activeItem-1).getClass() == Keycard.class) {
-            Keycard card = (Keycard)Inventory.get(activeItem-1);
-            switch (card.getColor()) {
-                case("red"):
-                    currentColor = "red";
-                    break;
-                case("green"):
-                    currentColor = "green";
-                    break;
-                case("blue"):
-                    currentColor = "blue";
-                    break;
-            }
-            Inventory.set(activeItem-1, null);
-        }
         clearInventory();
     }
 
-    public String getCurrentColor() {
-        return currentColor;
+    public boolean takeCurrentCard(Door door) {
+        boolean foundCard = false;
+        for (int i = 1; i < Inventory.size(); i++) {
+            Keycard card = null;
+            if (Inventory.get(i).getClass() == Keycard.class) {
+                card = (Keycard)Inventory.get(i);
+            }
+            if (activeItem == i+1) {
+                if (Objects.equals(door.getColor(), card.getColor())) {
+                    Inventory.set(i, null);
+                    foundCard = true;
+                }
+            }
+            else {
+                //TODO: implement warning message
+            }
+            clearInventory();
+        }
+        return foundCard;
     }
 }

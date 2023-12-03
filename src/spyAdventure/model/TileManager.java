@@ -87,10 +87,10 @@ public class TileManager {
             tiles[24].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedRedKeycardLeft.png")));
             tiles[25] = new Door("red");
             tiles[25].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorClosedRedKeycardRight.png")));
-            tiles[26] = new Door("");
+            tiles[26] = new Door("open");
             tiles[26].setCollision(false);
             tiles[26].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-            tiles[27] = new Door("");
+            tiles[27] = new Door("open");
             tiles[27].setCollision(false);
             tiles[27].setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
         } catch (IOException e) {

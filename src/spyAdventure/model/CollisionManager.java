@@ -7,6 +7,7 @@ import spyAdventure.model.Entities.Player;
 import spyAdventure.view.GamePanel;
 
 import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.util.Objects;
 
 public class CollisionManager {
@@ -37,41 +38,7 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision()  || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
-
-                    Door door = new Door("");
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile1];
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile2];
-                    }
-                    Player player = null;
-                    if (entity.getClass() == Player.class)
-                    {
-                        player = (Player)entity;
-                    }
-                    switch (door.getColor()) {
-                        case("red"):
-                            if (Objects.equals(player.getCurrentColor(), "red")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("green"):
-                            if (Objects.equals(player.getCurrentColor(), "green")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("blue"):
-                            if (Objects.equals(player.getCurrentColor(), "blue")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-                                door.setColor("");
-                            }
-                            break;
-                    }
+                    checkForDoor(tile1, tile2);
                 } catch (Exception ignored) {
 
                 }
@@ -84,41 +51,8 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision() || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
+                    checkForDoor(tile1, tile2);
 
-                    Door door = new Door("");
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile1];
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile2];
-                    }
-                    Player player = null;
-                    if (entity.getClass() == Player.class)
-                    {
-                        player = (Player)entity;
-                    }
-                    switch (door.getColor()) {
-                        case("red"):
-                            if (Objects.equals(player.getCurrentColor(), "red")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("green"):
-                            if (Objects.equals(player.getCurrentColor(), "green")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("blue"):
-                            if (Objects.equals(player.getCurrentColor(), "blue")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenFront.png")));
-                                door.setColor("");
-                            }
-                            break;
-                    }
                 } catch (Exception ignored) {
 
                 }
@@ -133,41 +67,7 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision()  || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
-
-                    Door door = new Door("");
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile1];
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile2];
-                    }
-                    Player player = null;
-                    if (entity.getClass() == Player.class)
-                    {
-                        player = (Player)entity;
-                    }
-                    switch (door.getColor()) {
-                        case("red"):
-                            if (Objects.equals(player.getCurrentColor(), "red")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("green"):
-                            if (Objects.equals(player.getCurrentColor(), "green")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("blue"):
-                            if (Objects.equals(player.getCurrentColor(), "blue")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
-                                door.setColor("");
-                            }
-                            break;
-                    }
+                    checkForDoor(tile1, tile2);
                 } catch (Exception ignored) {
 
                 }
@@ -181,41 +81,7 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision()  || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
-
-                    Door door = new Door("");
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile1];
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        door = (Door)gamePanel.getTM().getTiles()[tile2];
-                    }
-                    Player player = null;
-                    if (entity.getClass() == Player.class)
-                    {
-                        player = (Player)entity;
-                    }
-                    switch (door.getColor()) {
-                        case("red"):
-                            if (Objects.equals(player.getCurrentColor(), "red")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("green"):
-                            if (Objects.equals(player.getCurrentColor(), "green")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
-                                door.setColor("");
-                            }
-                            break;
-                        case("blue"):
-                            if (Objects.equals(player.getCurrentColor(), "blue")) {
-                                door.setCollision(false);
-                                door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
-                                door.setColor("");
-                            }
-                            break;
-                    }
+                    checkForDoor(tile1, tile2);
                 } catch (Exception ignored) {
 
                 }
@@ -325,5 +191,51 @@ public class CollisionManager {
             }
         }
         return index;
+    }
+
+    private void checkForDoor(int tile1, int tile2) throws IOException {
+        Door door = new Door("no-door");
+        System.out.println(gamePanel.getMM().canPlay());
+        if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
+            door = (Door)gamePanel.getTM().getTiles()[tile1];
+        } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
+            door = (Door)gamePanel.getTM().getTiles()[tile2];
+        }
+        System.out.println(door.getColor());
+        switch (door.getColor()) {
+            case("red"):
+                if (gamePanel.getPlayer().takeCurrentCard(door)) {
+                    door.setCollision(false);
+                    door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
+                    door.setColor("");
+                }
+                break;
+            case("green"):
+                if (gamePanel.getPlayer().takeCurrentCard(door)) {
+                    door.setCollision(false);
+                    door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
+                    door.setColor("");
+                }
+                break;
+            case("blue"):
+                if (gamePanel.getPlayer().takeCurrentCard(door)) {
+                    door.setCollision(false);
+                    door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
+                    door.setColor("");
+                }
+                break;
+            case(""):
+                gamePanel.getMM().setCanPlay(true);
+                if (gamePanel.getFinishedMinigame()) {
+                    door.setCollision(false);
+                    door.setImage(ImageIO.read(getClass().getResourceAsStream("/Assets/Tiles/Door/doorOpenSide.png")));
+                    door.setColor("");
+                    gamePanel.setFinishedMinigame(false);
+                }
+                break;
+            case("no-door"):
+                gamePanel.getMM().setCanPlay(false);
+                break;
+        }
     }
 }

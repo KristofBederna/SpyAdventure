@@ -7,6 +7,7 @@ import spyAdventure.model.Entities.NPC;
 import spyAdventure.model.Entities.NPCManager;
 import spyAdventure.model.Items.ItemManager;
 import spyAdventure.common.MovementHandler;
+import spyAdventure.model.MinigameManager;
 import spyAdventure.model.TileManager;
 import spyAdventure.model.Entities.Player;
 import spyAdventure.view.UI.FinishedScreen;
@@ -15,6 +16,7 @@ import spyAdventure.view.UI.UI;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable{
     Thread GameThread;
@@ -29,6 +31,9 @@ public class GamePanel extends JPanel implements Runnable{
     boolean finished = false;
     boolean dead = false;
     EventHandler EH = new EventHandler(this);;
+    MinigameManager MM = new MinigameManager(this);
+    String gameState = "go";
+    private boolean finishedMinigame = false;
 
     int[] spawnPointsX = new int[10];
     int[] spawnPointsY = new int[10];
@@ -87,69 +92,73 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        for (int i = 0; i < NM.getNPCs().length; i++) {
-            if (NM.getNPCs()[i] != null) {
-                NM.getNPCs()[i].update();
+        if (Objects.equals(gameState, "go")) {
+            for (int i = 0; i < NM.getNPCs().length; i++) {
+                if (NM.getNPCs()[i] != null) {
+                    NM.getNPCs()[i].update();
+                }
             }
-        }
-        player.update();
-        if (player.getHealth() <= 0) {
-            dead = true;
-            GameThread.interrupt();
-            GameThread = null;
-        }
-        if (player.getX() > Globals.MAX_TILES_WIDTH * Globals.SCALED_TILE_SIZE || player.getX() <= 0 || player.getY() > Globals.MAX_TILES_HEIGHT * Globals.SCALED_TILE_SIZE || player.getY() <= 0) {
-            if (TM.getCurrentMap() == 10) {
-                finished = true;
+            player.update();
+            if (player.getHealth() <= 0) {
+                dead = true;
                 GameThread.interrupt();
                 GameThread = null;
             }
-            else {
-                TM.loadMap(TM.getCurrentMap() + 1);
-                player.nullInventory();
-                TM.setCurrentMap(TM.getCurrentMap() + 1);
-                player.setX(spawnPointsX[TM.getCurrentMap()-1]); player.setY(spawnPointsY[TM.getCurrentMap()-1]);
+            if (player.getX() > Globals.MAX_TILES_WIDTH * Globals.SCALED_TILE_SIZE || player.getX() <= 0 || player.getY() > Globals.MAX_TILES_HEIGHT * Globals.SCALED_TILE_SIZE || player.getY() <= 0) {
+                if (TM.getCurrentMap() == 10) {
+                    finished = true;
+                    GameThread.interrupt();
+                    GameThread = null;
+                } else {
+                    TM.loadMap(TM.getCurrentMap() + 1);
+                    player.nullInventory();
+                    TM.setCurrentMap(TM.getCurrentMap() + 1);
+                    player.setX(spawnPointsX[TM.getCurrentMap() - 1]);
+                    player.setY(spawnPointsY[TM.getCurrentMap() - 1]);
+                }
             }
+            EH.checkEvent();
+        } else {
+            GameThread.interrupt();
         }
-        EH.checkEvent();
     }
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paintComponent(Graphics g){
+            super.paintComponent(g);
 
-        Graphics2D graphics2D = (Graphics2D) g;
+            Graphics2D graphics2D = (Graphics2D) g;
 
-        TM.draw(graphics2D);
+            TM.draw(graphics2D);
 
-        for (int i = 0; i < IM.getItems().length; i++) {
-            if (IM.getItems()[i] != null) {
-                IM.getItems()[i].draw(graphics2D);
+            for (int i = 0; i < IM.getItems().length; i++) {
+                if (IM.getItems()[i] != null) {
+                    IM.getItems()[i].draw(graphics2D);
+                }
             }
-        }
 
-        if (player.getDirection() != null) {
-            player.draw(graphics2D);
-        }
-
-        for (int i = 0; i < NM.getNPCs().length; i++) {
-            if (NM.getNPCs()[i] != null) {
-                NM.getNPCs()[i].draw(graphics2D);
+            if (player.getDirection() != null) {
+                player.draw(graphics2D);
             }
-        }
 
-        Ui.draw(graphics2D);
+            for (int i = 0; i < NM.getNPCs().length; i++) {
+                if (NM.getNPCs()[i] != null) {
+                    NM.getNPCs()[i].draw(graphics2D);
+                }
+            }
 
-        if (finished) {
-            FinishedScreen finishedScreen = new FinishedScreen(this, false);
-            Ui.add(finishedScreen);
-            finishedScreen.draw(graphics2D);
-        }
-        if (dead) {
-            FinishedScreen finishedScreen = new FinishedScreen(this, true);
-            Ui.add(finishedScreen);
-            finishedScreen.draw(graphics2D);
-        }
+            Ui.draw(graphics2D);
 
-        graphics2D.dispose();
+            if (finished) {
+                FinishedScreen finishedScreen = new FinishedScreen(this, false);
+                Ui.add(finishedScreen);
+                finishedScreen.draw(graphics2D);
+            }
+            if (dead) {
+                FinishedScreen finishedScreen = new FinishedScreen(this, true);
+                Ui.add(finishedScreen);
+                finishedScreen.draw(graphics2D);
+            }
+
+            graphics2D.dispose();
     }
 
     public CollisionManager getCM() {
@@ -177,5 +186,30 @@ public class GamePanel extends JPanel implements Runnable{
 
     public NPCManager getNM() {
         return NM;
+    }
+
+    public MinigameManager getMM() {
+        return MM;
+    }
+
+    public void setGameState(String state) {
+        switch (state) {
+            case ("pause"):
+                gameState = "pause";
+                break;
+            case("go"):
+                gameState = "go";
+                break;
+        }
+    }
+
+    public void setFinishedMinigame(boolean b) {
+        finishedMinigame = b;
+        if (finishedMinigame) {
+            setGameState("go");
+        }
+    }
+    public boolean getFinishedMinigame() {
+        return finishedMinigame;
     }
 }

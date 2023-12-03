@@ -1,5 +1,6 @@
 package spyAdventure.common;
 
+import spyAdventure.common.minigame.Main;
 import spyAdventure.view.GamePanel;
 
 import java.awt.event.KeyEvent;
@@ -65,6 +66,11 @@ public class MovementHandler implements KeyListener {
                 case(KeyEvent.VK_ENTER):
                     gamePanel.getPlayer().useActiveItem();
                     break;
+                case(KeyEvent.VK_E):
+                    if (gamePanel.getMM().canPlay()) {
+                        gamePanel.setGameState("pause");
+                        gamePanel.getMM().playMinigame();
+                    }
             }
         } catch (Exception ignored)  {
 
