@@ -1,6 +1,7 @@
 package spyAdventure.view;
 
 import spyAdventure.common.EventHandler;
+import spyAdventure.common.SoundManager;
 import spyAdventure.model.CollisionManager;
 import spyAdventure.common.Globals;
 import spyAdventure.model.Entities.NPC;
@@ -38,6 +39,9 @@ public class GamePanel extends JPanel implements Runnable{
     int[] spawnPointsX = new int[10];
     int[] spawnPointsY = new int[10];
 
+    SoundManager MusicManager = new SoundManager();
+    SoundManager SoundEffectManager = new SoundManager();
+
     public GamePanel() throws IOException {
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
         setBackground(Color.GREEN);
@@ -46,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
         setFocusable(true);
         IM.setupItems();
         setUpSpawnPoints();
+        playMusic(0);
         startGameThread();
     }
 
@@ -211,5 +216,19 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public boolean getFinishedMinigame() {
         return finishedMinigame;
+    }
+    public void playMusic(int i) {
+        MusicManager.setFile(i);
+        MusicManager.play();
+        MusicManager.loop();
+    }
+
+    public void stopMusic() {
+        MusicManager.stop();
+    }
+
+    public void playSoundEffect(int i) {
+        SoundEffectManager.setFile(i);
+        SoundEffectManager.play();
     }
 }

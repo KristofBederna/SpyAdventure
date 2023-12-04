@@ -68,6 +68,7 @@ public class MovementHandler implements KeyListener {
                     break;
                 case(KeyEvent.VK_E):
                     if (gamePanel.getMM().canPlay()) {
+                        up = false; left = false; right = false; down = false;
                         gamePanel.setGameState("pause");
                         gamePanel.getMM().playMinigame();
                     }

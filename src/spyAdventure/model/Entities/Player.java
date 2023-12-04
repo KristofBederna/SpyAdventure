@@ -222,6 +222,7 @@ public class Player extends Entity {
             right1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Right_2.png"));
             idle = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Idle.png"));
+
             attackUp1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_1.png"));
             attackUp2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_2.png"));
             attackDown1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_1.png"));

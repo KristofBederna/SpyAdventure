@@ -12,14 +12,12 @@ public class UI extends JPanel {
     Font Font;
     Timer timer;
     HealthLabel healthLabel;
-    AmmoLabel ammoLabel;
     InventoryLabel inventoryLabel;
     public UI(GamePanel gamePanel) throws IOException {
         GamePanel = gamePanel;
         Font = Globals.UI_FONT;
         timer = new Timer(gamePanel);
         healthLabel = new HealthLabel(gamePanel);
-        ammoLabel = new AmmoLabel(gamePanel);
         inventoryLabel = new InventoryLabel(gamePanel);
     }
 
@@ -28,8 +26,6 @@ public class UI extends JPanel {
         timer.draw(graphics2D);
         add(healthLabel);
         healthLabel.draw(graphics2D);
-        add(ammoLabel);
-        ammoLabel.draw(graphics2D);
         add(inventoryLabel);
         inventoryLabel.draw(graphics2D);
     }

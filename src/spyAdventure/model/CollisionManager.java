@@ -218,6 +218,49 @@ public class CollisionManager {
         return index;
     }
 
+    public boolean checkAttack(Entity entity, boolean canAttackPlayer) {
+        int defaultNPCX = entity.getAttackBox().x;
+        int defaultNPCY = entity.getAttackBox().y;
+        entity.getAttackBox().x = entity.getX() + entity.getAttackBox().x;
+        entity.getAttackBox().y = entity.getY() + entity.getAttackBox().y;
+
+        int defaultX = gamePanel.getPlayer().getHitBox().x;
+        int defaultY = gamePanel.getPlayer().getHitBox().y;
+        gamePanel.getPlayer().getHitBox().x = gamePanel.getPlayer().getX() + gamePanel.getPlayer().getHitBox().x;
+        gamePanel.getPlayer().getHitBox().y = gamePanel.getPlayer().getY() + gamePanel.getPlayer().getHitBox().y;
+        switch (entity.getAttackDirection()) {
+            case ("up"):
+                entity.getAttackBox().y -= entity.getSpeed();
+                if (entity.getAttackBox().intersects(gamePanel.getPlayer().getHitBox())) {
+                    canAttackPlayer = true;
+                }
+                break;
+            case ("down"):
+                entity.getAttackBox().y += entity.getSpeed();
+                if (entity.getAttackBox().intersects(gamePanel.getPlayer().getHitBox())) {
+                    canAttackPlayer = true;
+                }
+                break;
+            case ("left"):
+                entity.getAttackBox().x -= entity.getSpeed();
+                if (entity.getAttackBox().intersects(gamePanel.getPlayer().getHitBox())) {
+                    canAttackPlayer = true;
+                }
+                break;
+            case ("right"):
+                entity.getAttackBox().x += entity.getSpeed();
+                if (entity.getAttackBox().intersects(gamePanel.getPlayer().getHitBox())) {
+                    canAttackPlayer = true;
+                }
+                break;
+        }
+        entity.getAttackBox().x = defaultNPCX;
+        entity.getAttackBox().y = defaultNPCY;
+        gamePanel.getPlayer().getHitBox().x = defaultX;
+        gamePanel.getPlayer().getHitBox().y = defaultY;
+        return canAttackPlayer;
+    }
+
     private void checkForDoor(int row, int column, int doorNumber, String orientation) {
         Door door = new Door(((Door)gamePanel.getTM().getTiles()[doorNumber]).getColor());
         switch (door.getColor()) {

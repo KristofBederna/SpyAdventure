@@ -11,6 +11,9 @@ import java.util.Random;
 
 public class NPC extends Entity{
     int actionLockCounter = 0;
+    private boolean attacking = false;
+    private boolean canDamage = true;
+    private int attackTimeout = 0;
     public NPC(GamePanel gamePanel, int X, int Y) {
         super(gamePanel);
         this.X = X*Globals.SCALED_TILE_SIZE;
@@ -21,6 +24,9 @@ public class NPC extends Entity{
         previousHealth = 2;
 
         hitBox = new Rectangle(8, 16, 24, 24);
+
+        attackBox = new Rectangle(0, 0, Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE);
+        attackDirection = "down";
 
         getNPCImage();
     }
@@ -35,6 +41,15 @@ public class NPC extends Entity{
             right1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Right_2.png"));
             idle = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Idle.png"));
+
+            attackUp1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_1.png"));
+            attackUp2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_2.png"));
+            attackDown1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_1.png"));
+            attackDown2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_2.png"));
+            attackLeft1  = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Left_1.png"));
+            attackLeft2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Left_2.png"));
+            attackRight1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Right_1.png"));
+            attackRight2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Right_2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,6 +78,27 @@ public class NPC extends Entity{
             direction = "idle";
             actionLockCounter = 119;
             setAction();
+        }
+
+        if (gamePanel.getCM().checkAttack(this,false)){
+            if (canDamage) {
+                Random random = new Random();
+                if (random.nextInt(0, 100) % 75 == 0) {
+                    canDamage = false;
+                    attacking = true;
+                    gamePanel.getPlayer().damage();
+                    attackTimeout = 90;
+                }
+            }
+        }
+        if (attackTimeout == 60) {
+            attacking = false;
+        }
+        if (attackTimeout > 0) {
+            attackTimeout--;
+        } else {
+            attacking = false;
+            canDamage = true;
         }
 
         spriteCounter++;
@@ -114,11 +150,66 @@ public class NPC extends Entity{
                 image = idle;
                 break;
         }
+        if (attacking) {
+            switch (this.attackDirection) {
+                case "up":
+                    if (spiteNum == 1) {
+                        image = attackUp1;
+                    }
+                    if (spiteNum == 2) {
+                        image = attackUp2;
+                    }
+                    break;
+                case "down":
+                    if (spiteNum == 1) {
+                        image = attackDown1;
+                    }
+                    if (spiteNum == 2) {
+                        image = attackDown2;
+                    }
+                    break;
+                case "right":
+                    if (spiteNum == 1) {
+                        image = attackRight1;
+                    }
+                    if (spiteNum == 2) {
+                        image = attackRight2;
+                    }
+                    break;
+                case "left":
+                    if (spiteNum == 1) {
+                        image = attackLeft1;
+                    }
+                    if (spiteNum == 2) {
+                        image = attackLeft2;
+                    }
+                    break;
+                case "idle":
+                    image = attackDown1;
+                    break;
+            }
+        }
         if (image != null) {
             if (health < previousHealth) {
-                graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50), null);
+                if (attacking) {
+                    if (attackDirection.equals("right") || attackDirection.equals("left")) {
+                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+48, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50), null);
+                    } else {
+                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+8, Globals.SCALED_TILE_SIZE+16, new Color(255, 0, 0, 50), null);
+                    }
+                } else {
+                    graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50),null);
+                }
             } else {
-                graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
+                if (attacking) {
+                    if (attackDirection.equals("right") || attackDirection.equals("left")) {
+                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+48, Globals.SCALED_TILE_SIZE, null);
+                    } else {
+                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+8, Globals.SCALED_TILE_SIZE+16, null);
+                    }
+                } else {
+                    graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, null);
+                }
             }
         }
     }
@@ -130,12 +221,16 @@ public class NPC extends Entity{
             int i = random.nextInt(100)+1;
             if (i < 25) {
                 direction = "up";
+                attackDirection = "up";
             } else if (i > 25 && i <= 50) {
                 direction = "right";
+                attackDirection = "right";
             } else if (i > 50 && i <= 75) {
                 direction = "left";
+                attackDirection = "left";
             } else if (i > 75 && i < 100) {
                 direction = "down";
+                attackDirection = "down";
             }
             if (i % 10 == 0) {
                 direction = "idle";
