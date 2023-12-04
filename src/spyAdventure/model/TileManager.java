@@ -141,6 +141,5 @@ public class TileManager {
 
     public void updateCell(int row, int column, int changeTo) {
         intMap[row][column] = changeTo;
-        System.out.println(intMap[row][column]);
     }
 }
