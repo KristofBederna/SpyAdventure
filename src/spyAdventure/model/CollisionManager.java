@@ -38,12 +38,15 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision()  || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        checkForDoor(leftMargin, topMargin, tile1, "up");
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        checkForDoor(rightMargin, topMargin, tile2, "up");
-                    } else {
-                        gamePanel.getMM().setCanPlay(false);
+
+                    if (entity.getClass() == Player.class) {
+                        if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
+                            checkForDoor(leftMargin, topMargin, tile1, "up");
+                        } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
+                            checkForDoor(rightMargin, topMargin, tile2, "up");
+                        } else {
+                            gamePanel.getMM().setCanPlay(false);
+                        }
                     }
                 } catch (Exception ignored) {
 
@@ -58,12 +61,15 @@ public class CollisionManager {
                         entity.setColliding(true);
                     }
 
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        checkForDoor(leftMargin, bottomMargin, tile1, "up");
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        checkForDoor(rightMargin, bottomMargin, tile2, "up");
-                    } else {
-                        gamePanel.getMM().setCanPlay(false);
+                    if (entity.getClass() == Player.class)
+                    {
+                        if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
+                            checkForDoor(leftMargin, bottomMargin, tile1, "up");
+                        } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
+                            checkForDoor(rightMargin, bottomMargin, tile2, "up");
+                        } else {
+                            gamePanel.getMM().setCanPlay(false);
+                        }
                     }
 
                 } catch (Exception ignored) {
@@ -80,12 +86,16 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision()  || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        checkForDoor(leftMargin, topMargin, tile1, "side");
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        checkForDoor(leftMargin, bottomMargin, tile2, "side");
-                    } else {
-                        gamePanel.getMM().setCanPlay(false);
+
+                    if (entity.getClass() == Player.class)
+                    {
+                        if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
+                            checkForDoor(leftMargin, topMargin, tile1, "side");
+                        } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
+                            checkForDoor(leftMargin, bottomMargin, tile2, "side");
+                        } else {
+                            gamePanel.getMM().setCanPlay(false);
+                        }
                     }
                 } catch (Exception ignored) {
 
@@ -100,12 +110,16 @@ public class CollisionManager {
                     if (gamePanel.getTM().getTiles()[tile1].getCollision()  || gamePanel.getTM().getTiles()[tile2].getCollision()) {
                         entity.setColliding(true);
                     }
-                    if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
-                        checkForDoor(rightMargin, topMargin, tile1, "side");
-                    } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
-                        checkForDoor(rightMargin, bottomMargin, tile2, "side");
-                    } else {
-                        gamePanel.getMM().setCanPlay(false);
+
+                    if (entity.getClass() == Player.class)
+                    {
+                        if (gamePanel.getTM().getTiles()[tile1].getClass() == Door.class) {
+                            checkForDoor(rightMargin, topMargin, tile1, "side");
+                        } else if (gamePanel.getTM().getTiles()[tile2].getClass() == Door.class) {
+                            checkForDoor(rightMargin, bottomMargin, tile2, "side");
+                        } else {
+                            gamePanel.getMM().setCanPlay(false);
+                        }
                     }
                 } catch (Exception ignored) {
 
