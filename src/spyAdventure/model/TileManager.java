@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class TileManager {
     Tile[] tiles;
@@ -106,7 +107,6 @@ public class TileManager {
     }
     public void loadMap(int index) {
         try {
-            intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
             InputStream IS = getClass().getResourceAsStream("/Assets/IntMaps/Map"+index+".txt");
             BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
 
@@ -123,6 +123,7 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+
     public int[][] getIntMap() {
         return intMap;
     }
@@ -140,6 +141,6 @@ public class TileManager {
 
     public void updateCell(int row, int column, int changeTo) {
         intMap[row][column] = changeTo;
-        loadMap(currentMap);
+        System.out.println(intMap[row][column]);
     }
 }
