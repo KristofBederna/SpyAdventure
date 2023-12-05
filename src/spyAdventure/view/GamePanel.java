@@ -48,7 +48,6 @@ public class GamePanel extends JPanel implements Runnable{
         setDoubleBuffered(true); // smooth rendering
         addKeyListener(MH);
         setFocusable(true);
-        IM.setupItems();
         setUpSpawnPoints();
         playMusic(0);
         startGameThread();
@@ -134,9 +133,9 @@ public class GamePanel extends JPanel implements Runnable{
 
             TM.draw(graphics2D);
 
-            for (int i = 0; i < IM.getItems().length; i++) {
-                if (IM.getItems()[i] != null) {
-                    IM.getItems()[i].draw(graphics2D);
+            for (int i = 0; i < IM.getItems().size(); i++) {
+                if (IM.getItems().get(i) != null) {
+                    IM.getItems().get(i).draw(graphics2D);
                 }
             }
 

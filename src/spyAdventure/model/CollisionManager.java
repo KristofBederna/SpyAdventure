@@ -131,21 +131,21 @@ public class CollisionManager {
 
     public int checkObject(Entity entity, boolean player) {
         int index = 999;
-        for (int i = 0; i < gamePanel.getIM().getItems().length; i++) {
-            if (gamePanel.getIM().getItems()[i] != null) {
+        for (int i = 0; i < gamePanel.getIM().getItems().size(); i++) {
+            if (gamePanel.getIM().getItems().get(i) != null) {
                 int defaultX = entity.getHitBox().x;
                 int defaultY = entity.getHitBox().y;
                 entity.getHitBox().x = entity.getX() + entity.getHitBox().x;
                 entity.getHitBox().y = entity.getY() + entity.getHitBox().y;
 
-                int defaultItemX = gamePanel.getIM().getItems()[i].getHitBox().x;
-                int defaultItemY = gamePanel.getIM().getItems()[i].getHitBox().y;
-                gamePanel.getIM().getItems()[i].getHitBox().x = gamePanel.getIM().getItems()[i].getX() + gamePanel.getIM().getItems()[i].getHitBox().x;
-                gamePanel.getIM().getItems()[i].getHitBox().y = gamePanel.getIM().getItems()[i].getY() + gamePanel.getIM().getItems()[i].getHitBox().y;
+                int defaultItemX = gamePanel.getIM().getItems().get(i).getHitBox().x;
+                int defaultItemY = gamePanel.getIM().getItems().get(i).getHitBox().y;
+                gamePanel.getIM().getItems().get(i).getHitBox().x = gamePanel.getIM().getItems().get(i).getX() + gamePanel.getIM().getItems().get(i).getHitBox().x;
+                gamePanel.getIM().getItems().get(i).getHitBox().y = gamePanel.getIM().getItems().get(i).getY() + gamePanel.getIM().getItems().get(i).getHitBox().y;
                 switch (entity.getDirection()) {
                     case ("up"):
                         entity.getHitBox().y -= entity.getSpeed();
-                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems()[i].getHitBox())) {
+                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems().get(i).getHitBox())) {
                             if (player) {
                                 index = i;
                             }
@@ -153,7 +153,7 @@ public class CollisionManager {
                         break;
                     case ("down"):
                         entity.getHitBox().y += entity.getSpeed();
-                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems()[i].getHitBox())) {
+                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems().get(i).getHitBox())) {
                             if (player) {
                                 index = i;
                             }
@@ -161,7 +161,7 @@ public class CollisionManager {
                         break;
                     case ("left"):
                         entity.getHitBox().x -= entity.getSpeed();
-                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems()[i].getHitBox())) {
+                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems().get(i).getHitBox())) {
                             if (player) {
                                 index = i;
                             }
@@ -169,7 +169,7 @@ public class CollisionManager {
                         break;
                     case ("right"):
                         entity.getHitBox().x += entity.getSpeed();
-                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems()[i].getHitBox())) {
+                        if (entity.getHitBox().intersects(gamePanel.getIM().getItems().get(i).getHitBox())) {
                             if (player) {
                                 index = i;
                             }
@@ -178,8 +178,8 @@ public class CollisionManager {
                 }
                 entity.getHitBox().x = defaultX;
                 entity.getHitBox().y = defaultY;
-                gamePanel.getIM().getItems()[i].getHitBox().x = defaultItemX;
-                gamePanel.getIM().getItems()[i].getHitBox().y = defaultItemY;
+                gamePanel.getIM().getItems().get(i).getHitBox().x = defaultItemX;
+                gamePanel.getIM().getItems().get(i).getHitBox().y = defaultItemY;
             }
         }
         return index;

@@ -68,8 +68,8 @@ public class Player extends Entity {
 
         int itemIndex = gamePanel.getCM().checkObject(this, true);
         if (itemIndex != 999) {
-            Inventory.add(IM.getItems()[itemIndex]);
-            IM.ghostItem(itemIndex);
+            Inventory.add(IM.getItems().get(itemIndex));
+            IM.ghostItem(IM.getItems().get(itemIndex));
         }
 
         int NPCIndex = gamePanel.getCM().checkAttack(this);
