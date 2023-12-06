@@ -60,6 +60,7 @@ public class ItemManager {
     }
 
     public void putItemsInGame() {
+        items.clear();
         for (int i = 0; i < Globals.MAX_TILES_HEIGHT; i++) {
             for (int j = 0; j < Globals.MAX_TILES_WIDTH; j++) {
                 int num = intMap[j][i];

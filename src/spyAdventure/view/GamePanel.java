@@ -8,6 +8,7 @@ import spyAdventure.model.Entities.NPC;
 import spyAdventure.model.Entities.NPCManager;
 import spyAdventure.model.Items.ItemManager;
 import spyAdventure.common.MovementHandler;
+import spyAdventure.model.Items.Keycard;
 import spyAdventure.model.MinigameManager;
 import spyAdventure.model.TileManager;
 import spyAdventure.model.Entities.Player;
@@ -17,6 +18,7 @@ import spyAdventure.view.UI.UI;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.security.Key;
 import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -51,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
         setUpSpawnPoints();
         playMusic(0);
         startGameThread();
+        player.getInventory().add(new Keycard("green"));
     }
 
     public void startGameThread() {
@@ -117,6 +120,7 @@ public class GamePanel extends JPanel implements Runnable{
                     TM.loadMap(TM.getCurrentMap() + 1);
                     player.nullInventory();
                     TM.setCurrentMap(TM.getCurrentMap() + 1);
+                    IM.loadMap(TM.getCurrentMap());
                     player.setX(spawnPointsX[TM.getCurrentMap() - 1]);
                     player.setY(spawnPointsY[TM.getCurrentMap() - 1]);
                 }
