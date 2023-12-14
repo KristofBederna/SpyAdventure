@@ -4,13 +4,14 @@ import spyAdventure.common.minigame.*;
 import spyAdventure.view.GamePanel;
 
 public class MinigameManager {
-    private GamePanel gamePanel;
-    Main main;
+    private final Main main;
     private boolean canPlay = false;
+
+    //Constructor
     public MinigameManager(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
         main = new Main(gamePanel);
     }
+
     public void playMinigame() {
         if (canPlay) {
             main.main();
@@ -18,11 +19,13 @@ public class MinigameManager {
         }
     }
 
-    public void setCanPlay(boolean b) {
-        canPlay = b;
-    }
-
+    //Getters
     public boolean canPlay() {
         return canPlay;
+    }
+
+    //Setters
+    public void setCanPlay(boolean b) {
+        canPlay = b;
     }
 }

@@ -10,27 +10,30 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ItemManager {
-    private GamePanel gamePanel;
-    private ArrayList<Item> items = new ArrayList<>();
-    private int[][] intMap;
+    private final GamePanel gamePanel;
+    private final ArrayList<Item> items = new ArrayList<>();
+    private final int[][] intMap;
+
+    //Constructor
     public ItemManager(GamePanel GamePanel) {
         gamePanel = GamePanel;
         intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
         loadMap(gamePanel.getTM().getCurrentMap());
     }
 
-    public void placeItem(Item item, int X, int Y) {
+    // Places an item in the n+1,m+1 slot
+    private void placeItem(Item item, int X, int Y) {
         item.setX(X* Globals.SCALED_TILE_SIZE);
-        item.setY(Y*Globals.SCALED_TILE_SIZE); // Places an item in the n+1,m+1 slot
+        item.setY(Y*Globals.SCALED_TILE_SIZE);
     }
 
     public ArrayList<Item> getItems() {
         return items;
     }
 
-    public void ghostItem(Item item) {
-        item.setX(-100); item.setY(-100);
-        item.setVisible(false);
+    //Removes an item if it is picked up
+    public void removeItem(Item item) {
+        items.remove(item);
         if (Objects.equals(item.name, "health_kit")) {
             if (gamePanel.getPlayer().getHealth() < 5) {
                 gamePanel.getPlayer().heal();
@@ -53,13 +56,12 @@ public class ItemManager {
                 }
             }
             BR.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) { }
         putItemsInGame();
     }
 
-    public void putItemsInGame() {
+    //Places items on the play area based on an integer map
+    private void putItemsInGame() {
         items.clear();
         for (int i = 0; i < Globals.MAX_TILES_HEIGHT; i++) {
             for (int j = 0; j < Globals.MAX_TILES_WIDTH; j++) {

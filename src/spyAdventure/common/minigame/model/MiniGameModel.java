@@ -9,6 +9,7 @@ public class MiniGameModel {
     private int[][] fields;
     private int size;
 
+    //Constructor
     public void newGame(int size) {
         this.size = size;
         this.fields = new int[size][size];
@@ -16,6 +17,7 @@ public class MiniGameModel {
         fillFields();
     }
 
+    //Setup
     private void fillFields() {
         Random random = new Random();
         for (int i = 0; i < size; i++) {
@@ -25,10 +27,26 @@ public class MiniGameModel {
         }
     }
 
+    //Getters
+    public int getSize() {
+        return this.size;
+    }
     public int getField(int row, int column) {
         return fields[row][column];
     }
+    public boolean isGameOver() {
+        int firstColor = fields[0][0];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (fields[i][j] != firstColor) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    //Setters
     public void changeFields(int row, int column) {
         changeSingleField(row, column);
         changeSingleField(row-1, column);
@@ -42,21 +60,5 @@ public class MiniGameModel {
             fields[row][column]++;
             fields[row][column] %= 3;
         }
-    }
-
-    public boolean isGameOver() {
-        int firstColor = fields[0][0];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (fields[i][j] != firstColor) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public int getSize() {
-        return this.size;
     }
 }

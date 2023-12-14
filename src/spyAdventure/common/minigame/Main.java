@@ -6,7 +6,8 @@ import spyAdventure.view.GamePanel;
 import javax.swing.*;
 
 public class Main {
-    GamePanel gamePanel;
+    private final GamePanel gamePanel;
+    //Constructor
     public Main(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }

@@ -11,8 +11,9 @@ import java.security.Key;
 
 public class MovementHandler implements KeyListener {
     public boolean up, down, left, right;
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
 
+    //Constructor
     public MovementHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
@@ -73,9 +74,7 @@ public class MovementHandler implements KeyListener {
                         gamePanel.getMM().playMinigame();
                     }
             }
-        } catch (Exception ignored)  {
-
-        }
+        } catch (Exception ignored)  { }
     }
 
     @Override

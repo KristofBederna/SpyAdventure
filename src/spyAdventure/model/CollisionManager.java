@@ -11,10 +11,16 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class CollisionManager {
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
+
+    //Constructor
     public CollisionManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
+    //Collision checker functions
+
+    //Checks if the tile in the direction the player is heading solid or not, acts accordingly
     public void checkTile(Entity entity) {
         int leftX = (entity.getX() + entity.getHitBox().x);
         int rightX = (entity.getX() + entity.getHitBox().x + entity.getHitBox().width);
@@ -124,11 +130,11 @@ public class CollisionManager {
                 } catch (Exception ignored) {
 
                 }
-
                 break;
         }
     }
 
+    //Checks if there is an item in front of an entity, if the entity is a player, then the item is added to their inventory
     public int checkObject(Entity entity, boolean player) {
         int index = 999;
         for (int i = 0; i < gamePanel.getIM().getItems().size(); i++) {
@@ -184,6 +190,8 @@ public class CollisionManager {
         }
         return index;
     }
+
+    //Checks whether a player's attack is lining up with an entity's hitbox
     public int checkAttack(Entity entity) {
         int index = 999;
         for (int i = 0; i < gamePanel.getNM().getNPCs().size(); i++) {
@@ -232,6 +240,7 @@ public class CollisionManager {
         return index;
     }
 
+    //Checks whether an NPC's attack lines up with a player's hitbox
     public boolean checkAttack(Entity entity, boolean canAttackPlayer) {
         int defaultNPCX = entity.getAttackBox().x;
         int defaultNPCY = entity.getAttackBox().y;
@@ -275,6 +284,7 @@ public class CollisionManager {
         return canAttackPlayer;
     }
 
+    //Checks whether a door is in front of a player, and if the player can open it
     private void checkForDoor(int row, int column, int doorNumber, String orientation) {
         Door door = new Door(((Door)gamePanel.getTM().getTiles()[doorNumber]).getColor());
         switch (door.getColor()) {

@@ -11,16 +11,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class NPCManager {
-    private GamePanel gamePanel;
-    private ArrayList<NPC> NPCs = new ArrayList<>();
-    int[][] intMap;
+    private final GamePanel gamePanel;
+    private final ArrayList<NPC> NPCs = new ArrayList<>();
+    private final int[][] intMap;
+
+    //Constructor
     public NPCManager(GamePanel GamePanel) {
         gamePanel = GamePanel;
         intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
         loadMap(gamePanel.getTM().getCurrentMap());
     }
 
-    public void setupNPCs() {
+    //Setup
+    private void setupNPCs() {
         NPCs.clear();
         for (int i = 0; i < intMap.length; i++) {
             for (int j = 0; j < intMap[i].length; j++) {
@@ -34,10 +37,7 @@ public class NPCManager {
         }
     }
 
-    public ArrayList<NPC> getNPCs() {
-        return NPCs;
-    }
-
+    //Update
     public void loadMap(int index) {
         try {
             InputStream IS = getClass().getResourceAsStream("/Assets/NPCMaps/Map"+index+".txt");
@@ -52,9 +52,12 @@ public class NPCManager {
                 }
             }
             BR.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) { }
         setupNPCs();
+    }
+
+    //Getters
+    public ArrayList<NPC> getNPCs() {
+        return NPCs;
     }
 }

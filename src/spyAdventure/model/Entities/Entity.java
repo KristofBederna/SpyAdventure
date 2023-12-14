@@ -3,8 +3,11 @@ package spyAdventure.model.Entities;
 import spyAdventure.common.Globals;
 import spyAdventure.view.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Entity {
     protected int X, Y;
@@ -92,5 +95,9 @@ public class Entity {
 
     public String getAttackDirection() {
         return attackDirection;
+    }
+
+    protected BufferedImage setImage(String path) throws IOException {
+        return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
     }
 }

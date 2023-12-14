@@ -12,10 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MiniGamePanel extends JPanel {
-    private MiniGameModel gameModel;
-    private MiniGameFrame gameFrame;
-    private GamePanel gamePanel;
+    private final MiniGameModel gameModel;
+    private final MiniGameFrame gameFrame;
+    private final GamePanel gamePanel;
 
+    //Constructor
     public MiniGamePanel(MiniGameModel gameModel, MiniGameFrame gameFrame, GamePanel gamePanel) {
         this.gameModel = gameModel;
         this.gameFrame = gameFrame;
@@ -23,7 +24,8 @@ public class MiniGamePanel extends JPanel {
         newGame();
     }
 
-    public void newGame() {
+    //Setup
+    private void newGame() {
         setUpGamePanel();
         refreshUI();
     }
@@ -45,6 +47,7 @@ public class MiniGamePanel extends JPanel {
         repaint();
     }
 
+    //Update
     private void refreshUI() {
         for (Component component: getComponents()) {
             GridButton gridButton = (GridButton) component;
@@ -76,13 +79,12 @@ public class MiniGamePanel extends JPanel {
 
             checkForGameEnd();
         }
-    }
-
-    private void checkForGameEnd() {
-        if (gameModel.isGameOver()) {
-            gamePanel.setFinishedMinigame(true);
-            gamePanel.setGameState("go");
-            this.gameFrame.dispose();
+        private void checkForGameEnd() {
+            if (gameModel.isGameOver()) {
+                gamePanel.setFinishedMinigame(true);
+                gamePanel.setGameState("go");
+                gameFrame.dispose();
+            }
         }
     }
 }

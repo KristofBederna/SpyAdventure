@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.util.Random;
 
 public class NPC extends Entity{
-    int actionLockCounter = 0;
+    private int actionLockCounter = 0;
     private boolean attacking = false;
     private boolean canDamage = true;
     private int attackTimeout = 0;
+
+    //Constructor
     public NPC(GamePanel gamePanel, int X, int Y) {
         super(gamePanel);
         this.X = X*Globals.SCALED_TILE_SIZE;
@@ -28,32 +30,34 @@ public class NPC extends Entity{
         attackBox = new Rectangle(0, 0, Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE);
         attackDirection = "down";
 
-        getNPCImage();
+        setupNPCImage();
     }
-    public void getNPCImage() {
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Moving_Right_2.png"));
-            idle = ImageIO.read(getClass().getResourceAsStream("/Assets/Doctor/Doctor_Idle.png"));
 
-            attackUp1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_1.png"));
-            attackUp2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_2.png"));
-            attackDown1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_1.png"));
-            attackDown2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_2.png"));
-            attackLeft1  = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Left_1.png"));
-            attackLeft2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Left_2.png"));
-            attackRight1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Right_1.png"));
-            attackRight2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Right_2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    //Setup
+    private void setupNPCImage() {
+        try {
+            up1 = setImage("/Assets/Doctor/Doctor_Moving_Up_1.png");
+            up2 = setImage("/Assets/Doctor/Doctor_Moving_Up_2.png");
+            down1 = setImage("/Assets/Doctor/Doctor_Moving_Down_1.png");
+            down2 = setImage("/Assets/Doctor/Doctor_Moving_Down_2.png");
+            left1 = setImage("/Assets/Doctor/Doctor_Moving_Left_1.png");
+            left2 = setImage("/Assets/Doctor/Doctor_Moving_Left_2.png");
+            right1 = setImage("/Assets/Doctor/Doctor_Moving_Right_1.png");
+            right2 = setImage("/Assets/Doctor/Doctor_Moving_Right_2.png");
+            idle = setImage("/Assets/Doctor/Doctor_Idle.png");
+
+            attackUp1 = setImage("/Assets/Spy/Spy_Attacking_Up_1.png");
+            attackUp2 = setImage("/Assets/Spy/Spy_Attacking_Up_2.png");
+            attackDown1 = setImage("/Assets/Spy/Spy_Attacking_Down_1.png");
+            attackDown2 = setImage("/Assets/Spy/Spy_Attacking_Down_2.png");
+            attackLeft1  = setImage("/Assets/Spy/Spy_Attacking_Left_1.png");
+            attackLeft2 = setImage("/Assets/Spy/Spy_Attacking_Left_2.png");
+            attackRight1 = setImage("/Assets/Spy/Spy_Attacking_Right_1.png");
+            attackRight2 = setImage("/Assets/Spy/Spy_Attacking_Right_2.png");
+        } catch (IOException ignored) { }
     }
+
+    //Update
     public void update() {
         setAction();
         isColliding = false;
@@ -213,7 +217,8 @@ public class NPC extends Entity{
             }
         }
     }
-    public void setAction() {
+
+    private void setAction() {
         actionLockCounter++;
         if (actionLockCounter == 120) {
             actionLockCounter = 0;

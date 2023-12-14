@@ -16,14 +16,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity {
-    private MovementHandler MH;
-    private ArrayList<Item> Inventory;
-    private ItemManager IM;
+    private final MovementHandler MH;
+    private final ArrayList<Item> Inventory;
+    private final ItemManager IM;
     private int activeItem = 0;
     private int attackTimeout = 0;
     private boolean attacking = false;
     private boolean canDamage = true;
 
+    //Constructor
     public Player(MovementHandler movementHandler, GamePanel gamePanel, ItemManager im) {
         super(gamePanel);
 
@@ -43,9 +44,34 @@ public class Player extends Entity {
         Inventory.add(new CombatKnife());
         Inventory.add(new HealthKit());
 
-        getPlayerImage();
+        setupPlayerImage();
     }
 
+    //Setup
+    private void setupPlayerImage() {
+        try {
+            up1 = setImage("/Assets/Spy/Spy_Moving_Up_1.png");
+            up2 = setImage("/Assets/Spy/Spy_Moving_Up_2.png");
+            down1 = setImage("/Assets/Spy/Spy_Moving_Down_1.png");
+            down2 = setImage("/Assets/Spy/Spy_Moving_Down_2.png");
+            left1 = setImage("/Assets/Spy/Spy_Moving_Left_1.png");
+            left2 = setImage("/Assets/Spy/Spy_Moving_Left_2.png");
+            right1 = setImage("/Assets/Spy/Spy_Moving_Right_1.png");
+            right2 = setImage("/Assets/Spy/Spy_Moving_Right_2.png");
+            idle = setImage("/Assets/Spy/Spy_Idle.png");
+
+            attackUp1 = setImage("/Assets/Spy/Spy_Attacking_Up_1.png");
+            attackUp2 = setImage("/Assets/Spy/Spy_Attacking_Up_2.png");
+            attackDown1 = setImage("/Assets/Spy/Spy_Attacking_Down_1.png");
+            attackDown2 = setImage("/Assets/Spy/Spy_Attacking_Down_2.png");
+            attackLeft1 = setImage("/Assets/Spy/Spy_Attacking_Left_1.png");
+            attackLeft2 = setImage("/Assets/Spy/Spy_Attacking_Left_2.png");
+            attackRight1 = setImage("/Assets/Spy/Spy_Attacking_Right_1.png");
+            attackRight2 = setImage("/Assets/Spy/Spy_Attacking_Right_2.png");
+        } catch (IOException ignored) { }
+    }
+
+    //Update
     public void update() {
         if (MH.up) {
             direction = "up";
@@ -69,7 +95,7 @@ public class Player extends Entity {
         int itemIndex = gamePanel.getCM().checkObject(this, true);
         if (itemIndex != 999) {
             Inventory.add(IM.getItems().get(itemIndex));
-            IM.ghostItem(IM.getItems().get(itemIndex));
+            IM.removeItem(IM.getItems().get(itemIndex));
         }
 
         int NPCIndex = gamePanel.getCM().checkAttack(this);
@@ -124,6 +150,7 @@ public class Player extends Entity {
             spriteCounter = 0;
         }
     }
+
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
         if (!attacking) {
@@ -217,37 +244,7 @@ public class Player extends Entity {
         }
     }
 
-    public void getPlayerImage() {
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Moving_Right_2.png"));
-            idle = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Idle.png"));
-
-            attackUp1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_1.png"));
-            attackUp2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Up_2.png"));
-            attackDown1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_1.png"));
-            attackDown2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Down_2.png"));
-            attackLeft1  = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Left_1.png"));
-            attackLeft2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Left_2.png"));
-            attackRight1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Right_1.png"));
-            attackRight2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Spy/Spy_Attacking_Right_2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-    public ArrayList<Item> getInventory() {
-        return Inventory;
-    }
+    //Inventory management
     public void nullInventory() {
         for (int i = 0; i < Inventory.size(); i++) {
             if (Inventory.get(i).getClass() == Keycard.class) {
@@ -256,7 +253,8 @@ public class Player extends Entity {
         }
         clearInventory();
     }
-    public void clearInventory() {
+
+    private void clearInventory() {
         ArrayList<Item> temp = new ArrayList<>();
         for (Item item: Inventory) {
             if (item != null) {
@@ -265,14 +263,6 @@ public class Player extends Entity {
         }
         Inventory.clear();
         Inventory.addAll(temp);
-    }
-
-    public int getActiveItem() {
-        return activeItem;
-    }
-
-    public void setActiveItem(int activeItem) {
-        this.activeItem = activeItem;
     }
 
     public void useActiveItem() {
@@ -297,16 +287,27 @@ public class Player extends Entity {
                 card = (Keycard)Inventory.get(i);
             }
             if (activeItem == i+1) {
+                assert card != null;
                 if (Objects.equals(door.getColor(), card.getColor())) {
                     Inventory.set(i, null);
                     foundCard = true;
                 }
             }
-            else {
-                //TODO: implement warning message
-            }
             clearInventory();
         }
         return foundCard;
+    }
+
+    //Getters
+    public int getActiveItem() {
+        return activeItem;
+    }
+    public ArrayList<Item> getInventory() {
+        return Inventory;
+    }
+
+    //Setters
+    public void setActiveItem(int activeItem) {
+        this.activeItem = activeItem;
     }
 }

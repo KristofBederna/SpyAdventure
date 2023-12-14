@@ -5,13 +5,15 @@ import java.io.IOException;
 import java.net.URL;
 
 public class SoundManager {
-    Clip clip;
-    URL[] soundURL = new URL[10];
+    private Clip clip;
+    private final URL[] soundURL = new URL[10];
 
+    //Constructor
     public SoundManager() {
         soundURL[0] = getClass().getResource("/Assets/Music/James_Bond_007_Theme_8-Bit_Remix.wav");
     }
 
+    //Setup
     public void setFile(int i) {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
@@ -25,16 +27,11 @@ public class SoundManager {
             ignored.printStackTrace();
         }
     }
-
     public void play() {
         clip.start();
     }
 
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-
-    public void stop() {
-        clip.stop();
     }
 }
