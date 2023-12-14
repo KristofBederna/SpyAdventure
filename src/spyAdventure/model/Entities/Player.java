@@ -76,9 +76,15 @@ public class Player extends Entity {
         if (NPCIndex != 999) {
             if (attacking && canDamage) {
                 canDamage = false;
-                gamePanel.getNM().getNPCs()[NPCIndex].damage();
-                if (gamePanel.getNM().getNPCs()[NPCIndex].getHealth() == 0) {
-                    gamePanel.getNM().getNPCs()[NPCIndex] = null;
+                gamePanel.getNM().getNPCs().get(NPCIndex).damage();
+                if (gamePanel.getNM().getNPCs().get(NPCIndex).getHealth() == 0) {
+                    if (gamePanel.getNM().getNPCs().get(NPCIndex).getClass() == Boss.class) {
+                        Keycard tempCard = new Keycard("red");
+                        tempCard.setX(gamePanel.getNM().getNPCs().get(NPCIndex).getX());
+                        tempCard.setY(gamePanel.getNM().getNPCs().get(NPCIndex).getY());
+                        IM.getItems().add(tempCard);
+                    }
+                    gamePanel.getNM().getNPCs().set(NPCIndex, null);
                 }
             }
         }

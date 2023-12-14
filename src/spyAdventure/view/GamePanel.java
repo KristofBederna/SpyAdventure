@@ -53,7 +53,6 @@ public class GamePanel extends JPanel implements Runnable{
         setUpSpawnPoints();
         playMusic(0);
         startGameThread();
-        player.getInventory().add(new Keycard("green"));
     }
 
     public void startGameThread() {
@@ -62,21 +61,21 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setUpSpawnPoints() {
-        setUpASpawnPoint(0, 1, 1);
-        setUpASpawnPoint(1, 7, 1);
-        setUpASpawnPoint(2, 2, 1);
-        setUpASpawnPoint(3, 10, 12);
-        setUpASpawnPoint(4, 10, 4);
-        setUpASpawnPoint(5, 8, 1);
-        setUpASpawnPoint(6, 1, 1);
-        setUpASpawnPoint(7, 1, 1);
-        setUpASpawnPoint(8, 1, 1);
-        setUpASpawnPoint(9, 1, 1);
+        setUpASpawnPoint(1, 1, 1);
+        setUpASpawnPoint(2, 7, 1);
+        setUpASpawnPoint(3, 2, 1);
+        setUpASpawnPoint(4, 10, 12);
+        setUpASpawnPoint(5, 10, 4);
+        setUpASpawnPoint(6, 8, 1);
+        setUpASpawnPoint(7, 2, 1);
+        setUpASpawnPoint(8, 10, 12);
+        setUpASpawnPoint(9, 2, 1);
+        setUpASpawnPoint(10, 1, 13);
 
     }
     public void setUpASpawnPoint(int index, int Y, int X) {
-        spawnPointsX[index] = X*Globals.SCALED_TILE_SIZE;
-        spawnPointsY[index] = Y*Globals.SCALED_TILE_SIZE;
+        spawnPointsX[index-1] = X*Globals.SCALED_TILE_SIZE;
+        spawnPointsY[index-1] = Y*Globals.SCALED_TILE_SIZE;
     }
     @Override
     public void run() {
@@ -100,9 +99,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
         if (Objects.equals(gameState, "go")) {
-            for (int i = 0; i < NM.getNPCs().length; i++) {
-                if (NM.getNPCs()[i] != null) {
-                    NM.getNPCs()[i].update();
+            for (int i = 0; i < NM.getNPCs().size(); i++) {
+                if (NM.getNPCs().get(i) != null) {
+                    NM.getNPCs().get(i).update();
                 }
             }
             player.update();
@@ -121,6 +120,7 @@ public class GamePanel extends JPanel implements Runnable{
                     player.nullInventory();
                     TM.setCurrentMap(TM.getCurrentMap() + 1);
                     IM.loadMap(TM.getCurrentMap());
+                    NM.loadMap(TM.getCurrentMap());
                     player.setX(spawnPointsX[TM.getCurrentMap() - 1]);
                     player.setY(spawnPointsY[TM.getCurrentMap() - 1]);
                 }
@@ -147,9 +147,9 @@ public class GamePanel extends JPanel implements Runnable{
                 player.draw(graphics2D);
             }
 
-            for (int i = 0; i < NM.getNPCs().length; i++) {
-                if (NM.getNPCs()[i] != null) {
-                    NM.getNPCs()[i].draw(graphics2D);
+            for (int i = 0; i < NM.getNPCs().size(); i++) {
+                if (NM.getNPCs().get(i) != null) {
+                    NM.getNPCs().get(i).draw(graphics2D);
                 }
             }
 
@@ -224,14 +224,5 @@ public class GamePanel extends JPanel implements Runnable{
         MusicManager.setFile(i);
         MusicManager.play();
         MusicManager.loop();
-    }
-
-    public void stopMusic() {
-        MusicManager.stop();
-    }
-
-    public void playSoundEffect(int i) {
-        SoundEffectManager.setFile(i);
-        SoundEffectManager.play();
     }
 }
