@@ -18,7 +18,7 @@ public class Entity {
     protected boolean isColliding;
     protected int health;
     protected int previousHealth;
-    protected int ammo;
+
     protected GamePanel gamePanel;
     protected Rectangle attackBox;
     protected String attackDirection;
@@ -43,10 +43,6 @@ public class Entity {
         return speed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     public Entity(GamePanel gamePanel) {
         this.X = Globals.SCALED_TILE_SIZE;
         this.Y = Globals.SCALED_TILE_SIZE;
@@ -66,10 +62,6 @@ public class Entity {
     }
     public int getHealth() {
         return health;
-    }
-
-    public int getAmmo() {
-        return ammo;
     }
 
     public int getHitBoxDefaultX() {

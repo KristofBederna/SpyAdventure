@@ -20,7 +20,7 @@ public class TileManager {
     int currentMap = 1;
 
     public TileManager() {
-        tiles = new Tile[30];
+        tiles = new Tile[29];
         setTiles();
         intMap = new int[Globals.MAX_TILES_WIDTH][Globals.MAX_TILES_HEIGHT];
         loadMap(currentMap);

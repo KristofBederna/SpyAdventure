@@ -1,14 +1,13 @@
 package spyAdventure.view;
 
-import spyAdventure.common.EventHandler;
 import spyAdventure.common.SoundManager;
+import spyAdventure.common.database.dao.HighScoreDao;
+import spyAdventure.common.database.entity.HighScore;
 import spyAdventure.model.CollisionManager;
 import spyAdventure.common.Globals;
-import spyAdventure.model.Entities.NPC;
 import spyAdventure.model.Entities.NPCManager;
 import spyAdventure.model.Items.ItemManager;
 import spyAdventure.common.MovementHandler;
-import spyAdventure.model.Items.Keycard;
 import spyAdventure.model.MinigameManager;
 import spyAdventure.model.TileManager;
 import spyAdventure.model.Entities.Player;
@@ -18,7 +17,7 @@ import spyAdventure.view.UI.UI;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.security.Key;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -30,10 +29,9 @@ public class GamePanel extends JPanel implements Runnable{
     Player player = new Player(MH, this, IM);
     NPCManager NM = new NPCManager(this);
     UI Ui = new UI(this);
-    long timeSpent = 0;
+    int timeSpent = 0;
     boolean finished = false;
     boolean dead = false;
-    EventHandler EH = new EventHandler(this);;
     MinigameManager MM = new MinigameManager(this);
     String gameState = "go";
     private boolean finishedMinigame = false;
@@ -42,9 +40,16 @@ public class GamePanel extends JPanel implements Runnable{
     int[] spawnPointsY = new int[10];
 
     SoundManager MusicManager = new SoundManager();
-    SoundManager SoundEffectManager = new SoundManager();
+
+    private HighScoreDao highScoreDao;
+    private String userName;
 
     public GamePanel() throws IOException {
+        this.highScoreDao = new HighScoreDao();
+        userName = JOptionPane.showInputDialog(null, "What is your name?");
+        if (userName == null || userName.trim().isEmpty()) {
+            userName = "Default User";
+        }
         setPreferredSize(new Dimension(Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT));
         setBackground(Color.GREEN);
         setDoubleBuffered(true); // smooth rendering
@@ -113,6 +118,7 @@ public class GamePanel extends JPanel implements Runnable{
             if (player.getX() > Globals.MAX_TILES_WIDTH * Globals.SCALED_TILE_SIZE || player.getX() <= 0 || player.getY() > Globals.MAX_TILES_HEIGHT * Globals.SCALED_TILE_SIZE || player.getY() <= 0) {
                 if (TM.getCurrentMap() == 10) {
                     finished = true;
+                    saveTime();
                     GameThread.interrupt();
                     GameThread = null;
                 } else {
@@ -125,7 +131,6 @@ public class GamePanel extends JPanel implements Runnable{
                     player.setY(spawnPointsY[TM.getCurrentMap() - 1]);
                 }
             }
-            EH.checkEvent();
         } else {
             GameThread.interrupt();
         }
@@ -184,13 +189,6 @@ public class GamePanel extends JPanel implements Runnable{
     public Player getPlayer() {
         return player;
     }
-    public Boolean getFinished() {
-        return finished;
-    }
-
-    public void setFinished(Boolean finished) {
-        this.finished = finished;
-    }
 
     public NPCManager getNM() {
         return NM;
@@ -224,5 +222,16 @@ public class GamePanel extends JPanel implements Runnable{
         MusicManager.setFile(i);
         MusicManager.play();
         MusicManager.loop();
+    }
+
+    public void saveTime() {
+        HighScore highScore = new HighScore();
+        highScore.setName(userName);
+        highScore.setScore(timeSpent);
+        try {
+            highScoreDao.add(highScore);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to save high_score to database!", e);
+        }
     }
 }
