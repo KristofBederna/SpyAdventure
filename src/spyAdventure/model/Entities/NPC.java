@@ -46,14 +46,14 @@ public class NPC extends Entity{
             right2 = setImage("/Assets/Doctor/Doctor_Moving_Right_2.png");
             idle = setImage("/Assets/Doctor/Doctor_Idle.png");
 
-            attackUp1 = setImage("/Assets/Spy/Spy_Attacking_Up_1.png");
-            attackUp2 = setImage("/Assets/Spy/Spy_Attacking_Up_2.png");
-            attackDown1 = setImage("/Assets/Spy/Spy_Attacking_Down_1.png");
-            attackDown2 = setImage("/Assets/Spy/Spy_Attacking_Down_2.png");
-            attackLeft1  = setImage("/Assets/Spy/Spy_Attacking_Left_1.png");
-            attackLeft2 = setImage("/Assets/Spy/Spy_Attacking_Left_2.png");
-            attackRight1 = setImage("/Assets/Spy/Spy_Attacking_Right_1.png");
-            attackRight2 = setImage("/Assets/Spy/Spy_Attacking_Right_2.png");
+            attackUp1 = setImage("/Assets/Doctor/Doctor_Attacking_Up_1.png");
+            attackUp2 = setImage("/Assets/Doctor/Doctor_Attacking_Up_2.png");
+            attackDown1 = setImage("/Assets/Doctor/Doctor_Attacking_Down_1.png");
+            attackDown2 = setImage("/Assets/Doctor/Doctor_Attacking_Down_2.png");
+            attackLeft1  = setImage("/Assets/Doctor/Doctor_Attacking_Left_1.png");
+            attackLeft2 = setImage("/Assets/Doctor/Doctor_Attacking_Left_2.png");
+            attackRight1 = setImage("/Assets/Doctor/Doctor_Attacking_Right_1.png");
+            attackRight2 = setImage("/Assets/Doctor/Doctor_Attacking_Right_2.png");
         } catch (IOException ignored) { }
     }
 
@@ -197,9 +197,9 @@ public class NPC extends Entity{
             if (health < previousHealth) {
                 if (attacking) {
                     if (attackDirection.equals("right") || attackDirection.equals("left")) {
-                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+48, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50), null);
+                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50), null);
                     } else {
-                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE+8, Globals.SCALED_TILE_SIZE+16, new Color(255, 0, 0, 50), null);
+                        graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50), null);
                     }
                 } else {
                     graphics2D.drawImage(image, getX(), getY(), Globals.SCALED_TILE_SIZE, Globals.SCALED_TILE_SIZE, new Color(255, 0, 0, 50),null);

@@ -18,7 +18,7 @@ import java.util.Objects;
 public class TileManager {
     private final Tile[] tiles;
     private final int[][] intMap;
-    private int currentMap = 10;
+    private int currentMap = 1;
 
     //Constructor
     public TileManager() {
