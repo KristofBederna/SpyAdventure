@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlite:SpyAdventure.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="SpyAdventure" uuid="7891d448-da80-4183-aa9b-0a29f5a48b80">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Projects\Progtech(Java)\SpyAdventure\SpyAdventure.sqlite</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

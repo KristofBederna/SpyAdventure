@@ -6,11 +6,14 @@ import spyAdventure.common.database.entity.HighScore;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HighScoreDao implements IEntityDao<HighScore> {
 
     private static final String SELECT_ALL_QUERY = "SELECT * FROM high_score";
     private static final String INSERT_QUERY = "INSERT INTO high_score (name, score) VALUES (?, ?)";
+
+    private static final String TOP_HIGH_SCORE_QUERY = "SELECT score FROM high_score ORDER BY score ASC LIMIT 1";
 
     private static final String ATTR_NAME_ID = "id";
 
@@ -45,5 +48,34 @@ public class HighScoreDao implements IEntityDao<HighScore> {
 
                 statement.executeUpdate();
             }
+    }
+
+    public long getTopScore() throws SQLException {
+        Connection connection = DataSource.getInstance().getDbConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = connection.prepareStatement(TOP_HIGH_SCORE_QUERY);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(ATTR_NAME_SCORE);
+            }
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException ignored) { }
+
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException ignored) { }
+        }
+
+        return 0;
     }
 }

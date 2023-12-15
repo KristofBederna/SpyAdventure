@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable{
     private void saveTime() {
         HighScore highScore = new HighScore();
         highScore.setName(userName);
-        highScore.setScore(timeSpent);
+        highScore.setScore(timeSpent/60);
         try {
             highScoreDao.add(highScore);
         } catch (SQLException e) {
@@ -213,6 +213,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public boolean getFinishedMinigame() {
         return finishedMinigame;
+    }
+
+    public HighScoreDao getHighScoreDao() {
+        return highScoreDao;
     }
 
     //Setters
